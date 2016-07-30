@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using MXKJ.DBMiddleWareLib;
 
 namespace WebUI
 {
@@ -13,6 +14,12 @@ namespace WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            BasicDBClass.DataSource = "localhost";
+            BasicDBClass.DBName = "td_oa";
+            BasicDBClass.Port = 3305;
+            BasicDBClass.UserID = "root";
+            BasicDBClass.Password = "myoa888";
         }
     }
 }
