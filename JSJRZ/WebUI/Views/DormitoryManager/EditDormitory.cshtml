@@ -1,7 +1,7 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.AddDormitoryViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.EditDormitoryViewModel
 @*@using System.Web.Optimization*@
 @{
-    ViewBag.Title = "添加公寓";
+    ViewBag.Title = "编辑公寓";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
 }
 @section JS {
@@ -16,13 +16,13 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    添加公寓
+                    编辑公寓
                 </h1>
             </section>
 
             <!-- Main content -->
             <section class="content">
-                @using (Html.BeginForm("AddDormitory", "DormitoryManager", FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("EditDormitory", "DormitoryManager", FormMethod.Post, new { role = "form" }))
                 {
                     <div class="row">
                         <!-- left column -->

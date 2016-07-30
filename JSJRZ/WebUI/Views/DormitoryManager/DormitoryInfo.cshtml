@@ -1,5 +1,5 @@
-﻿@model MXKJ.JSJRZ.Models.DormitoryManager.DormitoryInfoViewModel
-@using MXKJ.JSJRZ.Models.DormitoryManager
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.DormitoryInfoViewModel
+@using MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 @{
     ViewBag.Title = "公寓信息";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
@@ -32,15 +32,12 @@
                     <div class="col-md-12">
                         <!-- general form elements -->
                         <div class="box box-primary">
-                            <div class="box-header with-border">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        @Html.ActionLink("增加用户", "AddUser", "Admin", "", new { @class = "btn btn-block btn-primary", @style = "float:left; display:inline" })
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="button" id="DelButton" class="btn btn-block btn-danger" style="float:left; display:inline">删除用户</button>
-                                    </div>
-                                </div>
+                            <div class="box-header with-border text-left">
+                                <h3 class="box-title">
+                                    @Html.ActionLink("新建", "AddDormitory", "DormitoryManager", "", new { @class = "btn btn-danger", })&nbsp&nbsp
+                                    <button type="button" id="DelButton" class="btn  btn-default">删除</button>
+                                </h3>
+
                             </div><!-- /.box-header -->
                             <!-- form start -->
                             <div class="row">
@@ -53,7 +50,7 @@
                                             <table id="usersTable" class="table table-bordered table-striped">
                                                 <thead>
                                                     <tr>
-                                                        <th>选择</th>
+
                                                         <th>建筑名称</th>
                                                         <th>楼编号</th>
                                                         <th>所在校区</th>
@@ -68,17 +65,17 @@
                                                 <tbody>
                                                     @foreach (DormitoryItemsViewModel vTempItem in Model.Items)
                                                     {
-                                                        <tr class="even gradeA">
-                                                            <td>@vTempItem.BuildName</td>
-                                                            <td>@vTempItem.Unit</td>
-                                                            <td>@vTempItem.Campus</td>
-                                                            <td>@vTempItem.Position</td>
-                                                            <td>@vTempItem.ManagementTel</td>
-                                                            <td>@vTempItem.Area</td>
-                                                            <td>@vTempItem.Storey</td>
-                                                            <td>@vTempItem.LyaerHouseNumber</td>
-                                                            <td>@Html.ActionLink("编辑", "EditUser", "Admin", new { UserID = vTempItem.ID }, new { @class = "btn btn-block btn-success", @style = "width:150px" })</td>
-                                                        </tr>
+                                                    <tr class="even gradeA">
+                                                        <td>@vTempItem.BuildName</td>
+                                                        <td>@vTempItem.Unit</td>
+                                                        <td>@vTempItem.Campus</td>
+                                                        <td>@vTempItem.Position</td>
+                                                        <td>@vTempItem.ManagementTel</td>
+                                                        <td>@vTempItem.Area</td>
+                                                        <td>@vTempItem.Storey</td>
+                                                        <td>@vTempItem.LyaerHouseNumber</td>
+                                                        <td>@Html.ActionLink("编辑", "EditDormitory", "DormitoryManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success", @style = "width:150px" })</td>
+                                                    </tr>
                                                     }
                                             </table>
                                         </div><!-- /.box-body -->
@@ -95,9 +92,9 @@
         var table;
         $(document).ready(function () {
             $(function () {
-               table =  $('#usersTable').DataTable({
+                table = $('#usersTable').DataTable({
                     responsive: true,
-                    Retrieve:true,
+                    Retrieve: true,
                     'language': {
                         'search': '搜索:',
                         'zeroRecords': "没有记录",
@@ -115,13 +112,8 @@
                             }
                         }
                     }
-                 });
-                //var table = $('#usersTable').dataTable();
+                });
             });
-            //var table = $('#usersTable').DataTable({
-            //    'bDestroy': true
-            //});
-            //var table = $('#usersTable').dataTable().fnDestroy();
 
             $('#usersTable tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
@@ -132,8 +124,7 @@
 
                 var selectRows = table.rows('.selected').indexes();
                 var count = table.rows('.selected').data().length;
-                if (count == 0)
-                {
+                if (count == 0) {
                     alert("请选择需要删除的用户");
                     return;
                 }

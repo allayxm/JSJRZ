@@ -4,7 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+//using System.Web.Optimization;
 using MXKJ.DBMiddleWareLib;
+using MXKJ.JSJRZ.WebUI.App_Start;
 
 namespace WebUI
 {
@@ -14,6 +16,7 @@ namespace WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            //BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             BasicDBClass.DataSource = "localhost";
             BasicDBClass.DBName = "td_oa";

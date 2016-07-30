@@ -22,6 +22,8 @@ namespace MXKJ.Entity
         public String Storey { get; set; }
         [ColumnAttrib("BuildTime")]
         public String BuildTime { get; set; }
+        [ColumnAttrib("OccupiedArea")]
+        public double? OccupiedArea { get; set; }
         [ColumnAttrib("Area")]
         public double? Area { get; set; }
         [ColumnAttrib("Campus")]
@@ -33,7 +35,7 @@ namespace MXKJ.Entity
         [ColumnAttrib("HouseStructure")]
         public String HouseStructure { get; set; }
         [ColumnAttrib("LyaerHouseNumber")]
-        public int LyaerHouseNumber { get; set; }
+        public int? LyaerHouseNumber { get; set; }
         [ColumnAttrib("ManagementTel")]
         public String ManagementTel { get; set; }
         [ColumnAttrib("BuildMoney")]
@@ -42,6 +44,8 @@ namespace MXKJ.Entity
         public String Property { get; set; }
         [ColumnAttrib("Position")]
         public String Position { get; set; }
+        [ColumnAttrib("Memo")]
+        public String Memo { get; set; }
     }
 
 }
