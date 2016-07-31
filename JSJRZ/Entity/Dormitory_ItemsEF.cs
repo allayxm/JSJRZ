@@ -11,7 +11,7 @@ namespace MXKJ.Entity
     public struct Dormitory_ItemsEF
     {
         [ColumnAttrib("ID")]
-        public int ID { get; set; }
+        public int? ID { get; set; }
         [ColumnAttrib("BuildName")]
         public String BuildName { get; set; }
         [ColumnAttrib("BuildType")]
@@ -19,7 +19,7 @@ namespace MXKJ.Entity
         [ColumnAttrib("HouseState")]
         public String HouseState { get; set; }
         [ColumnAttrib("Storey")]
-        public String Storey { get; set; }
+        public int? Storey { get; set; }
         [ColumnAttrib("BuildTime")]
         public String BuildTime { get; set; }
         [ColumnAttrib("OccupiedArea")]

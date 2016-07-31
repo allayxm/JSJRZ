@@ -8,7 +8,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 {
     public class EditDormitoryViewModel
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
         [Required]
         [Display(Name = "建筑名称")]
         public String BuildName { get; set; }
@@ -40,8 +40,9 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         };
 
         [Required]
+        [RegularExpression(@"^\+?[1-9][0-9]*$", ErrorMessage = "楼层必须是正数")]
         [Display(Name = "楼层")]
-        public String Storey { get; set; }
+        public int? Storey { get; set; }
 
         [Display(Name = "建筑时间")]
         public String BuildTime { get; set; }
@@ -55,6 +56,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         [Display(Name = "所在校区")]
         public String Campus { get; set; }
 
+        [Required]
         [Display(Name = "楼编号")]
         public String Unit { get; set; }
 
@@ -80,6 +82,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         };
 
         [Required]
+        [RegularExpression(@"^\+?[1-9][0-9]*$", ErrorMessage = "房间数必须是正数")]
         [Display(Name = "每层最大房间数")]
         public int? LyaerHouseNumber { get; set; }
 

@@ -20,12 +20,12 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
 
             Dormitory vDormitoryInfo = new Dormitory();
             var vAllDormitoryData = vDormitoryInfo.GetAllDormitory();
-            foreach( var vTempData in vAllDormitoryData)
+            foreach (var vTempData in vAllDormitoryData)
             {
                 DormitoryItemsViewModel vNewItem = new DormitoryItemsViewModel()
                 {
                     ID = vTempData.ID,
-                    Area = vTempData.Area != null ? vTempData.Area.Value:0,
+                    Area = vTempData.Area != null ? vTempData.Area.Value : 0,
                     BuildName = vTempData.BuildName,
                     Campus = vTempData.Campus,
                     LyaerHouseNumber = vTempData.LyaerHouseNumber,
@@ -43,7 +43,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         #region 添加公寓
         public ActionResult AddDormitory()
         {
-            return View( new AddDormitoryViewModel());
+            return View(new AddDormitoryViewModel());
         }
 
         [HttpPost]
@@ -86,7 +86,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         public ActionResult EditDormitory(int ID)
         {
             Dormitory vDormitory = new Dormitory();
-            Dormitory_ItemsEF vDormitoryInfo =  vDormitory.GetDormitoryInfo(ID);
+            Dormitory_ItemsEF vDormitoryInfo = vDormitory.GetDormitoryInfo(ID);
             EditDormitoryViewModel vModel = new EditDormitoryViewModel()
             {
                 ID = vDormitoryInfo.ID,
@@ -145,6 +145,44 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 return View(Model);
             }
         }
+
+        public JsonResult DeleteDormitory(string IDS)
+        {
+            Dormitory vDormitory = new Dormitory();
+            bool vResult = vDormitory.DeleteDormitory(IDS);
+            return Json(vResult, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region 宿舍管理
+        public ActionResult HouseInfo()
+        {
+            Dormitory vDormitoryInfo = new Dormitory();
+            HouseInfoViewModel vModel = new HouseInfoViewModel();
+            Dormitory_HouseViewEF[] vHouseInfo =  vDormitoryInfo.GetAllHouseInfo();
+            foreach (Dormitory_HouseViewEF vTempHouse in vHouseInfo)
+            {
+                HouseDetailInfoViewModel vNewHouse = new HouseDetailInfoViewModel()
+                {
+                    ID = vTempHouse.ID,
+                    Area = vTempHouse.Area,
+                    BedNumber = vTempHouse.BedNumber,
+                    DormitoryID = vTempHouse.DormitoryID,
+                    DormitoryName = vTempHouse.DormitoryName,
+                    Floor = vTempHouse.Floor,
+                    IsUse = vTempHouse.IsUse,
+                    Number = vTempHouse.Number
+                };
+                vModel.HouseList.Add(vNewHouse);
+            }
+            return View(vModel);
+        }
+
+        //public JsonResult CreateHouse(int DormitoryID)
+        //{
+
+        //}
 
         #endregion
     }

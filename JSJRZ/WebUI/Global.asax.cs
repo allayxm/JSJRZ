@@ -18,11 +18,11 @@ namespace WebUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             //BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            BasicDBClass.DataSource = "localhost";
-            BasicDBClass.DBName = "td_oa";
-            BasicDBClass.Port = 3305;
-            BasicDBClass.UserID = "root";
-            BasicDBClass.Password = "myoa888";
+            BasicDBClass.DataSource = System.Web.Configuration.WebConfigurationManager.AppSettings["DataSource"];
+            BasicDBClass.DBName = System.Web.Configuration.WebConfigurationManager.AppSettings["DBName"];
+            BasicDBClass.Port = int.Parse( System.Web.Configuration.WebConfigurationManager.AppSettings["Port"] );
+            BasicDBClass.UserID = System.Web.Configuration.WebConfigurationManager.AppSettings["UserID"];
+            BasicDBClass.Password = System.Web.Configuration.WebConfigurationManager.AppSettings["Password"];
         }
     }
 }

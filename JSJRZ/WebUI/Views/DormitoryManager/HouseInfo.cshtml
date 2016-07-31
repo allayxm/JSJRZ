@@ -1,7 +1,7 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.DormitoryInfoViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.HouseInfoViewModel
 @using MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 @{
-    ViewBag.Title = "公寓信息";
+    ViewBag.Title = "宿舍管理";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
 }
 @section CSS{
@@ -21,7 +21,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    公寓信息
+                    宿舍管理
                 </h1>
             </section>
 
@@ -34,6 +34,7 @@
                         <div class="box box-primary">
                             <div class="box-header with-border text-left">
                                 <h3 class="box-title">
+                                    <button type="button" id="CreateButton" class="btn  btn-danger">生成房间</button>
                                     @Html.ActionLink("新建", "AddDormitory", "DormitoryManager", "", new { @class = "btn btn-danger", })&nbsp&nbsp
                                     <button type="button" id="DelButton" class="btn  btn-default">删除</button>
                                 </h3>
@@ -52,31 +53,27 @@
                                                     <tr>
                                                         <th style="display:none">ID</th>
                                                         <th>建筑名称</th>
-                                                        <th>楼编号</th>
-                                                        <th>所在校区</th>
-                                                        <th>位置</th>
-                                                        <th>楼管处电话</th>
-                                                        <th>面积</th>
                                                         <th>楼层</th>
-                                                        <th>每层最大房间数</th>
+                                                        <th>房间编号</th>
+                                                        <th>面积</th>
+                                                        <th>床位数</th>
+                                                        <th>是否在用</th>
                                                         <th style="width:50px">编辑</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (DormitoryItemsViewModel vTempItem in Model.Items)
+                                                    @foreach (HouseDetailInfoViewModel vTempHouse in Model.HouseList)
                                                     {
-                                                    <tr class="even gradeA">
-                                                        <td style="display:none">@vTempItem.ID</td>
-                                                        <td>@vTempItem.BuildName</td>
-                                                        <td>@vTempItem.Unit</td>
-                                                        <td>@vTempItem.Campus</td>
-                                                        <td>@vTempItem.Position</td>
-                                                        <td>@vTempItem.ManagementTel</td>
-                                                        <td>@vTempItem.Area</td>
-                                                        <td>@vTempItem.Storey</td>
-                                                        <td>@vTempItem.LyaerHouseNumber</td>
-                                                        <td>@Html.ActionLink("编辑", "EditDormitory", "DormitoryManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success" })</td>
-                                                    </tr>
+                                                        <tr class="even gradeA">
+                                                            <td style="display:none">@vTempHouse.ID</td>
+                                                            <td>@vTempHouse.DormitoryName</td>
+                                                            <td>@vTempHouse.Floor</td>
+                                                            <td>@vTempHouse.Number</td>
+                                                            <td>@vTempHouse.Area</td>
+                                                            <td>@vTempHouse.BedNumber</td>
+                                                            <td>@vTempHouse.IsUse==true?"在用":"停用"</td>
+                                                            <td>@Html.ActionLink("编辑", "EditDormitory", "DormitoryManager", new { ID = vTempHouse.ID }, new { @class = "btn btn-block btn-success" })</td>
+                                                        </tr>
                                                     }
                                             </table>
                                         </div><!-- /.box-body -->
@@ -126,10 +123,10 @@
                 var selectRows = table.rows('.selected').indexes();
                 var count = table.rows('.selected').data().length;
                 if (count == 0) {
-                    alert("请选择需要删除的公寓");
+                    alert("请选择需要删除的宿舍");
                     return;
                 }
-                if (confirm("删除公寓会将公寓下所有的宿舍信息一并删除，请确认是否进行删除操作？")) {
+                if (confirm("确定删除选择的数据？")) {
                     var i = 0;
                     var code = "";
                     for (i; i < count; i++) {

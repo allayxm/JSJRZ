@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dormitory_HouseEF.cs" />
+    <Compile Include="Dormitory_HouseViewEF.cs" />
     <Compile Include="Dormitory_ItemsEF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

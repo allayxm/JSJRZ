@@ -12,7 +12,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 
     public class DormitoryItemsViewModel
     {
-        public int ID { get; set; }
+        public int? ID { get; set; }
 
         public string BuildName { get; set; }
 
@@ -26,7 +26,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 
         public double Area { get; set; }
 
-        public string Storey { get; set; }
+        public int? Storey { get; set; }
 
         public int? LyaerHouseNumber { get; set; }
 
