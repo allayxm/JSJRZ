@@ -1,13 +1,11 @@
 ﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.AddDormitoryViewModel
-@*@using System.Web.Optimization*@
+@using System.Web.Optimization
 @{
-    ViewBag.Title = "添加公寓";
+    ViewBag.Title = "添加宿舍";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
 }
 @section JS {
-    @*@Scripts.Render("~/bundles/jqueryval")*@
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
     <div class="wrapper">
@@ -16,7 +14,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    添加公寓
+                    添加宿舍
                 </h1>
             </section>
 
@@ -87,7 +85,7 @@
                                     <div class="col-md-6">
                                         <div class="box-body">
                                             <div class="form-group">
-                                                <label>楼编号</label>
+                                                <label>楼编号<a style="color:red">*</a></label>
                                                 @Html.TextBoxFor(m => m.Unit, new { @class = "form-control", placeholder = "请输入楼编号" })
                                             </div>
                                             <div class="form-group">

@@ -2,6 +2,7 @@
 using MXKJ.JSJRZ.WebUI.Models.DormitoryManager;
 using MXKJ.BusinessLogic;
 using MXKJ.Entity;
+using System.Collections.Generic;
 
 namespace MXKJ.JSJRZ.WebUI.Controllers
 {
@@ -13,6 +14,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             return View();
         }
 
+        #region 公寓管理
         #region 显示公寓信息
         public ActionResult DormitoryInfo()
         {
@@ -154,13 +156,14 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         }
 
         #endregion
+        #endregion
 
-        #region 宿舍管理
+        #region 房间管理
         public ActionResult HouseInfo()
         {
             Dormitory vDormitoryInfo = new Dormitory();
             HouseInfoViewModel vModel = new HouseInfoViewModel();
-            Dormitory_HouseViewEF[] vHouseInfo =  vDormitoryInfo.GetAllHouseInfo();
+            Dormitory_HouseViewEF[] vHouseInfo = vDormitoryInfo.GetAllHouseInfo();
             foreach (Dormitory_HouseViewEF vTempHouse in vHouseInfo)
             {
                 HouseDetailInfoViewModel vNewHouse = new HouseDetailInfoViewModel()
@@ -179,10 +182,141 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             return View(vModel);
         }
 
-        //public JsonResult CreateHouse(int DormitoryID)
-        //{
+        #region 创建宿舍
+        public ActionResult CreateHouse()
+        {
+            CreateHouseViewModel vModel = new CreateHouseViewModel();
+            Dormitory vDormitory = new Dormitory();
+            Dormitory_ItemsEF[] vDormitoryData = vDormitory.GetAllDormitory();
+            vModel.DormitoryList.AddRange(convertToDormitoryListItem(vDormitoryData));
+            return View(vModel);
+        }
 
-        //}
+        [HttpPost]
+        public ActionResult CreateHouse(CreateHouseViewModel Model)
+        {
+            Dormitory vDormitory = new Dormitory();
+            bool vResult = vDormitory.CreateHouseByDormitory(Model.DormitoryID.Value, Model.Unit,
+                Model.Floor.Value, Model.Number.Value, Model.BedNumber.Value, Model.Area);
+            if (vResult)
+                return RedirectToAction("HouseInfo", "DormitoryManager");
+            else
+            {
+                ModelState.AddModelError("", "创建宿舍失败");
+                return View(Model);
+            }
+        }
+
+        public ActionResult EditHouse(int ID)
+        {
+            Dormitory vDormitory = new Dormitory();
+            Dormitory_HouseViewEF vHouseInfo = vDormitory.GetHouseInfoByID(ID);
+            EditHouseViewModel vModel = new EditHouseViewModel()
+            {
+                ID = vHouseInfo.ID.Value,
+                Area = vHouseInfo.Area,
+                BedNumber = vHouseInfo.BedNumber,
+                DormitoryID = vHouseInfo.DormitoryID,
+                DormitoryName = vHouseInfo.DormitoryName,
+                Floor = vHouseInfo.Floor,
+                HouseNumber = vHouseInfo.Number,
+                IsUse = vHouseInfo.IsUse.Value
+            };
+            vModel.DormitoryList.AddRange(convertToDormitoryListItem(vDormitory.GetAllDormitory()));
+            return View(vModel);
+        }
+
+        [HttpPost]
+        public ActionResult EditHouse(EditHouseViewModel Model)
+        {
+            Dormitory vDormitory = new Dormitory();
+            Dormitory_HouseEF vHouseData = new Dormitory_HouseEF()
+            {
+                ID = Model.ID,
+                Area = Model.Area,
+                BedNumber = Model.BedNumber,
+                DormitoryID = Model.DormitoryID,
+                Floor = Model.Floor,
+                IsUse = Model.IsUse,
+                Number = Model.HouseNumber
+            };
+            bool vResult = vDormitory.UpdateHouseInfo(vHouseData);
+            if (vResult)
+                return RedirectToAction("HouseInfo", "DormitoryManager");
+            else
+            {
+                ModelState.AddModelError("", "宿舍信息编辑失败");
+                return View(Model);
+            }
+        }
+
+        public JsonResult DeleteHouse( string IDS)
+        {
+            Dormitory vDormitory = new Dormitory();
+            bool vResult = vDormitory.DeleteDormitory(IDS);
+            return Json(vResult, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddHouse()
+        {
+            AddHouseViewModel vModel = new AddHouseViewModel();
+            Dormitory vDormitory = new Dormitory();
+            vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+            return View(vModel);
+        }
+
+        [HttpPost]
+        public ActionResult AddHouse(AddHouseViewModel Model)
+        {
+            Dormitory vDormitory = new Dormitory();
+            Dormitory_HouseEF vHouseData = new Dormitory_HouseEF()
+            {
+                Area = Model.Area,
+                BedNumber = Model.BedNumber,
+                DormitoryID = Model.DormitoryID,
+                Floor = Model.Floor,
+                IsUse = Model.IsUse,
+                Number = Model.HouseNumber
+            };
+            bool vResult = vDormitory.AddHouse(vHouseData);
+            if (vResult)
+                return RedirectToAction("HouseInfo", "DormitoryManager");
+            else
+            {
+                ModelState.AddModelError("", "宿舍信息增加失败");
+                return View(Model);
+            }
+        }
+
+        #endregion
+
+        #region 公用
+        List<SelectListItem> convertToDormitoryListItem(Dormitory_ItemsEF[] DormitoryItmes)
+        {
+            List<SelectListItem> vList = new List<SelectListItem>();
+            foreach (Dormitory_ItemsEF vTempvDormitory in DormitoryItmes)
+            {
+                SelectListItem vNewItem = new SelectListItem()
+                {
+                    Text = vTempvDormitory.BuildName,
+                    Value = vTempvDormitory.ID.ToString()
+                };
+                vList.Add(vNewItem);
+            }
+            return vList;
+        }
+        #endregion
+
+        #endregion
+
+        #region 房间分配
+        public ActionResult HouseAllot()
+        {
+            HouseAllotViewModel vModel = new HouseAllotViewModel();
+            Dormitory vDormitory = new Dormitory();
+            vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+            return View(vModel);
+        }
 
         #endregion
     }

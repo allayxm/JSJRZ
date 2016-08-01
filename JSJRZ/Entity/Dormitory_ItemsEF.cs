@@ -7,7 +7,7 @@ using MXKJ.DBMiddleWareLib;
 
 namespace MXKJ.Entity
 {
-    [TableAttrib("dormitory_items", "ID")]
+    [TableAttrib("edu_dormitory_items", "ID")]
     public struct Dormitory_ItemsEF
     {
         [ColumnAttrib("ID")]

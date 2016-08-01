@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-//using System.Web.Optimization;
+using System.Web.Optimization;
 using MXKJ.DBMiddleWareLib;
 using MXKJ.JSJRZ.WebUI.App_Start;
 
@@ -16,7 +16,7 @@ namespace WebUI
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            //BundleConfig.RegisterBundles(BundleTable.Bundles);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             BasicDBClass.DataSource = System.Web.Configuration.WebConfigurationManager.AppSettings["DataSource"];
             BasicDBClass.DBName = System.Web.Configuration.WebConfigurationManager.AppSettings["DBName"];

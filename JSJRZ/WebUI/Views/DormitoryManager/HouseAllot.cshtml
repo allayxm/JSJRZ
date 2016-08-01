@@ -1,17 +1,20 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.DormitoryInfoViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.HouseAllotViewModel
 @using MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 @using System.Web.Optimization
 @{
-    ViewBag.Title = "公寓信息";
+    ViewBag.Title = "房间分配";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
 }
 @section CSS{
     <!-- DataTables -->
     @Styles.Render("~/bundles/DataTable/css")
+    @Styles.Render("~/bundles/select2/css")
 }
 @section JS{
     <!-- DataTables -->
     @Scripts.Render("~/bundles/DataTable/js")
+    @Scripts.Render("~/bundles/select2/js")
+
 }
 <body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
     <div class="wrapper">
@@ -20,7 +23,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    公寓信息
+                    房间分配
                 </h1>
             </section>
 
@@ -33,8 +36,9 @@
                         <div class="box box-primary">
                             <div class="box-header with-border text-left">
                                 <h3 class="box-title">
-                                    @Html.ActionLink("新建", "AddDormitory", "DormitoryManager", "", new { @class = "btn btn-danger", })&nbsp&nbsp
-                                    <button type="button" id="DelButton" class="btn  btn-default">删除</button>
+                                    <label>公寓楼:</label>@Html.DropDownListFor(m => m.DormitorySelected, (List<SelectListItem>)Model.DormitoryList, "---请选择---", new { @ID = "DropDownList_Dormitory", @Name = "DropDownList_Dormitory",@class= "form-control select2" })
+                                    <label>楼层:</label>@Html.DropDownListFor(m => m.FloorSelected, new List<SelectListItem>(), "---请选择---", new { @ID = "DropDownList_Floor", @Name = "DropDownList_Floor", @class = "form-control select2" })
+                                    @Html.ActionLink("查询", "CreateHouse", "DormitoryManager", "", new { @class = "btn btn-danger", })
                                 </h3>
 
                             </div><!-- /.box-header -->
@@ -51,30 +55,30 @@
                                                     <tr>
                                                         <th style="display:none">ID</th>
                                                         <th>建筑名称</th>
-                                                        <th>楼编号</th>
-                                                        <th>所在校区</th>
-                                                        <th>位置</th>
-                                                        <th>楼管处电话</th>
-                                                        <th>面积</th>
                                                         <th>楼层</th>
-                                                        <th>每层最大房间数</th>
+                                                        <th>房间编号</th>
+                                                        <th>面积</th>
+                                                        <th>床位数</th>
+                                                        <th>剩余床位</th>
+                                                        <th>住宿学生</th>
+                                                        <th>是否在用</th>
                                                         <th style="width:50px">编辑</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (DormitoryItemsViewModel vTempItem in Model.Items)
+                                                    @foreach (HouseAllotInfoViewModel vTempHouse in Model.HouseList)
                                                     {
                                                         <tr class="even gradeA">
-                                                            <td style="display:none">@vTempItem.ID</td>
-                                                            <td>@vTempItem.BuildName</td>
-                                                            <td>@vTempItem.Unit</td>
-                                                            <td>@vTempItem.Campus</td>
-                                                            <td>@vTempItem.Position</td>
-                                                            <td>@vTempItem.ManagementTel</td>
-                                                            <td>@vTempItem.Area</td>
-                                                            <td>@vTempItem.Storey</td>
-                                                            <td>@vTempItem.LyaerHouseNumber</td>
-                                                            <td>@Html.ActionLink("编辑", "EditDormitory", "DormitoryManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success" })</td>
+                                                            <td style="display:none">@vTempHouse.ID</td>
+                                                            <td>@vTempHouse.DormitoryName</td>
+                                                            <td>@vTempHouse.Floor</td>
+                                                            <td>@vTempHouse.Number</td>
+                                                            <td>@vTempHouse.Area</td>
+                                                            <td>@vTempHouse.BedNumber</td>
+                                                            <td>@vTempHouse.ResidueBed</td>
+                                                            <td>@vTempHouse.StudentName</td>
+                                                            <td>@(vTempHouse.IsUse == true ? Html.Raw("<a style='color:green'>在用</a>") : Html.Raw("<a style='color:red'>停用</a>"))</td>
+                                                            <td>@(vTempHouse.IsUse == true ? @Html.ActionLink("分配", "EditHouse", "DormitoryManager", new { ID = vTempHouse.ID }, new { @class = "btn btn-block btn-success" }) : @Html.Raw(""))</td>
                                                         </tr>
                                                     }
                                             </table>
@@ -101,6 +105,7 @@
                         "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
                         "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
                         'lengthMenu': '显示 _MENU_ 条记录',
+                        "order": [[3, "desc"]],
                         paginate: {
                             previous: '‹',
                             next: '›'
@@ -113,41 +118,17 @@
                         }
                     }
                 });
+
+                $(".select2").select2();
             });
 
             $('#usersTable tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
             });
-
-
-            $('#DelButton').click(function () {
-
-                var selectRows = table.rows('.selected').indexes();
-                var count = table.rows('.selected').data().length;
-                if (count == 0) {
-                    alert("请选择需要删除的公寓");
-                    return;
-                }
-                if (confirm("删除公寓会将公寓下所有的宿舍信息一并删除，请确认是否进行删除操作？")) {
-                    var i = 0;
-                    var code = "";
-                    for (i; i < count; i++) {
-                        var tempData = table.rows(selectRows[i]).data();
-                        code += tempData[0][0] + "|";
-                        //table.rows(selectRows[i]).remove().draw(false);
-                    }
-                    $.getJSON(
-                           "/DormitoryManager/DeleteDormitory",
-                           { IDS: code },
-                           function (result) {
-                               if (result) {
-                                   table.rows('.selected').remove().draw(false);
-                               }
-                           }
-                      )
-                }
-            });
         })
+        
+          
+         
 
     </script>
 </body>

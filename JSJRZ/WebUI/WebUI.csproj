@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,11 +44,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -57,6 +66,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization.Extensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Web.Optimization.Extensions.1.0.3\lib\net45\System.Web.Optimization.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -64,6 +81,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Web.Razor">
@@ -875,6 +896,14 @@
     <Content Include="plugins\slimScroll\jquery.slimscroll.min.js" />
     <Content Include="plugins\sparkline\jquery.sparkline.js" />
     <Content Include="plugins\sparkline\jquery.sparkline.min.js" />
+    <Content Include="plugins\switch\bootstrap-switch.css" />
+    <Content Include="plugins\switch\bootstrap-switch.js" />
+    <Content Include="plugins\switch\bootstrap-switch.min.css" />
+    <Content Include="plugins\switch\bootstrap-switch.min.js" />
+    <Content Include="plugins\switch\highlight.css" />
+    <Content Include="plugins\switch\highlight.js" />
+    <Content Include="plugins\switch\main.css" />
+    <Content Include="plugins\switch\main.js" />
     <Content Include="plugins\timepicker\bootstrap-timepicker.css" />
     <Content Include="plugins\timepicker\bootstrap-timepicker.js" />
     <Content Include="plugins\timepicker\bootstrap-timepicker.min.css" />
@@ -1010,8 +1039,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DormitoryManager\AddDormitoryViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\AddHouseViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\CreateHouseViewModel.cs" />
     <Compile Include="Models\DormitoryManager\DormitoryInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\EditDormitoryViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\EditHouseViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
     <Compile Include="Models\DormitoryManager\HouseInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1031,6 +1064,10 @@
     <Content Include="Views\DormitoryManager\AddDormitory.cshtml" />
     <Content Include="Views\DormitoryManager\EditDormitory.cshtml" />
     <Content Include="Views\DormitoryManager\HouseInfo.cshtml" />
+    <Content Include="Views\DormitoryManager\CreateHouse.cshtml" />
+    <Content Include="Views\DormitoryManager\EditHouse.cshtml" />
+    <Content Include="Views\DormitoryManager\AddHouse.cshtml" />
+    <Content Include="Views\DormitoryManager\HouseAllot.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
