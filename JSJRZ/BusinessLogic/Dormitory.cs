@@ -201,7 +201,7 @@ namespace MXKJ.BusinessLogic
         }
 
         public bool AddAdmin( string Name, string WorkType, string WorkTime,
-            int Dormitory, int Floor, string Duty, string Tel, string Memo)
+            int Dormitory, int? Floor, string Duty, string Tel, string Memo)
         {
             Dormitory_AdminEF vAdminEF = new Dormitory_AdminEF()
             {
@@ -218,7 +218,7 @@ namespace MXKJ.BusinessLogic
         }
 
         public bool UpdateAdminInfo( int AdminID,string Name,string WorkType,string WorkTime,
-            int Dormitory,int Floor,string Duty,string Tel,string Memo)
+            int Dormitory,int? Floor,string Duty,string Tel,string Memo)
         {
             Dormitory_AdminEF vAdminEF = new Dormitory_AdminEF()
             {

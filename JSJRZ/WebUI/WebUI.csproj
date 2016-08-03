@@ -1035,6 +1035,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DormitoryManagerController.cs" />
+    <Compile Include="Controllers\SafeManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1052,6 +1053,9 @@
     <Compile Include="Models\DormitoryManager\HouseInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
     <Compile Include="Models\DormitoryManager\StudentInfoViewModel.cs" />
+    <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
+    <Compile Include="Models\SafeManager\EditHiddenDangerViewModel.cs" />
+    <Compile Include="Models\SafeManager\HiddenDangerInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1081,6 +1085,8 @@
     <Content Include="Views\DormitoryManager\AdminInfo.cshtml" />
     <Content Include="Views\DormitoryManager\AddAdmin.cshtml" />
     <Content Include="Views\DormitoryManager\EditAdmin.cshtml" />
+    <Content Include="Views\SafeManager\HiddenDangerInfo.cshtml" />
+    <Content Include="Views\Shared\_LayoutHiddenDangerInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

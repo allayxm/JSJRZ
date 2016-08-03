@@ -308,6 +308,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             }
             return vList;
         }
+
         #endregion
 
         #endregion
@@ -399,7 +400,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
 
             Model.FloorList.Clear();
             Dormitory_ItemsEF vDormitoryInfo = vDormitory.GetDormitoryInfo(Model.DormitorySelected);
-            int vFloor = vDormitoryInfo.Storey.Value;
+            int vFloor = vDormitoryInfo.Storey==null?0: vDormitoryInfo.Storey.Value;
             for (int i = 1; i <= vFloor; i++)
             {
                 SelectListItem vFloorItem = new SelectListItem()
@@ -465,6 +466,24 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             AdminInfoViewModel vModel = new AdminInfoViewModel();
             Dormitory vDormitory = new Dormitory();
             vModel.DormitoryList = convertToDormitoryListItem( vDormitory.GetAllDormitory() );
+            Dormitory_AdminViewEF[] vAdminData = vDormitory.GetAllAdminInfo();
+            foreach (Dormitory_AdminViewEF vTempHouse in vAdminData)
+            {
+
+                AdminInfoItemViewModel vNewItem = new AdminInfoItemViewModel()
+                {
+                    ID = vTempHouse.ID,
+                    Dormitory = vTempHouse.DormitoryName,
+                    Duty = vTempHouse.Duty,
+                    Floor = vTempHouse.Floor == null ? "" : string.Format("{0}楼", vTempHouse.Floor),
+                    Memo = vTempHouse.Memo,
+                    Name = vTempHouse.Name,
+                    Tel = vTempHouse.Tel,
+                    WorkTime = vTempHouse.WorkTime,
+                    WorkType = vTempHouse.WorkType
+                };
+                vModel.AdminList.Add(vNewItem);
+            }
             return View(vModel);
         }
 
@@ -477,16 +496,19 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             Model.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
 
             Model.FloorList.Clear();
-            Dormitory_ItemsEF vDormitoryInfo = vDormitory.GetDormitoryInfo(Model.DormitorySelected);
-            int vFloor = vDormitoryInfo.Storey.Value;
-            for (int i = 1; i <= vFloor; i++)
+            if (Model.DormitorySelected != 0)
             {
-                SelectListItem vFloorItem = new SelectListItem()
+                Dormitory_ItemsEF vDormitoryInfo = vDormitory.GetDormitoryInfo(Model.DormitorySelected);
+                int vFloor = vDormitoryInfo.Storey.Value;
+                for (int i = 1; i <= vFloor; i++)
                 {
-                    Text = i + "楼",
-                    Value = i.ToString()
-                };
-                Model.FloorList.Add(vFloorItem);
+                    SelectListItem vFloorItem = new SelectListItem()
+                    {
+                        Text = i + "楼",
+                        Value = i.ToString()
+                    };
+                    Model.FloorList.Add(vFloorItem);
+                }
             }
 
             Model.AdminList.Clear();
@@ -498,7 +520,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                     ID = vTempHouse.ID,
                     Dormitory = vTempHouse.DormitoryName,
                     Duty = vTempHouse.Duty,
-                    Floor = string.Format("{0}楼", vTempHouse.Floor),
+                    Floor = vTempHouse.Floor==null?"":string.Format("{0}楼", vTempHouse.Floor),
                     Memo = vTempHouse.Memo,
                     Name = vTempHouse.Name,
                     Tel = vTempHouse.Tel,
@@ -544,7 +566,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 ID = ID,
                 Dormitory = vAdminData.Dormitory.Value,
                 Duty = vAdminData.Duty,
-                Floor = vAdminData.Floor.Value,
+                Floor = vAdminData.Floor,
                 Memo = vAdminData.Memo,
                 Name = vAdminData.Name,
                 Tel = vAdminData.Tel,

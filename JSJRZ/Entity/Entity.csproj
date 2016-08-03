@@ -45,6 +45,7 @@
     <Compile Include="Dormitory_HouseViewEF.cs" />
     <Compile Include="Dormitory_ItemsEF.cs" />
     <Compile Include="Dormitory_Admin.cs" />
+    <Compile Include="HiddenDangerEF.cs" />
     <Compile Include="Edu_StudentsEF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

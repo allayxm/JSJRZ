@@ -19,7 +19,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         [Display(Name = "公寓楼")]
         public int Dormitory { get; set; }
         public List<SelectListItem> DormitoryList { get; set; } = new List<SelectListItem>();
-        public int Floor { get; set; }
+        public int? Floor { get; set; }
         public String Duty { get; set; }
         public String Tel { get; set; }
         public String Memo { get; set; }

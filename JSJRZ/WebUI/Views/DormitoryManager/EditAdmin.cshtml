@@ -21,7 +21,7 @@
 
             <!-- Main content -->
             <section class="content">
-                @using (Html.BeginForm("EditHouse", "DormitoryManager", FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("EditAdmin", "DormitoryManager", FormMethod.Post, new { role = "form" }))
                 {
                     <div class="row">
                         <!-- left column -->
@@ -47,7 +47,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>工作类型</label>
-                                                @Html.TextBoxFor(m => m.Floor, new { @class = "form-control", placeholder = "请输入工作类型" })
+                                                @Html.TextBoxFor(m => m.WorkType, new { @class = "form-control", placeholder = "请输入工作类型" })
                                             </div>
                                             <div class="form-group">
                                                 <label>公寓楼<a style="color:red">*</a></label>
@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>楼层</label>
-                                                @Html.DropDownListFor(m => m.Floor, new List<SelectListItem>(), "请选择公寓楼", new { @class = "form-control" })
+                                                @Html.DropDownListFor(m => m.Floor, new List<SelectListItem>(), "请选择楼层", new { @class = "form-control" })
                                             </div>
                                             <div class="form-group">
                                                 <label>工作时间段</label>
