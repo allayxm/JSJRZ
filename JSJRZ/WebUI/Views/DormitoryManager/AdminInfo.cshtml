@@ -1,0 +1,184 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.AdminInfoViewModel
+@using MXKJ.JSJRZ.WebUI.Models.DormitoryManager
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "管理人员";
+    Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
+}
+@section CSS{
+    <!-- DataTables -->
+    @Styles.Render("~/bundles/DataTable/css")
+    @Styles.Render("~/bundles/select2/css")
+}
+@section JS{
+    <!-- DataTables -->
+    @Scripts.Render("~/bundles/DataTable/js")
+    @Scripts.Render("~/bundles/select2/js")
+}
+<body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    管理人员
+                </h1>
+            </section>
+
+            <!-- Main content -->@using (Html.BeginForm("AdminInfo", "DormitoryManager", FormMethod.Post, new { role = "form" }))
+            {
+                <section class="content">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <div class="box-header with-border text-left">
+
+                                    <h3 class="box-title">
+                                        公寓楼:@Html.DropDownListFor(m => m.DormitorySelected, (List<SelectListItem>)Model.DormitoryList, "所有公寓楼", new { @class = "form-control select2", @Style = "width:200px" })
+                                        楼层:@Html.DropDownListFor(m => m.FloorSelected, (List<SelectListItem>)Model.FloorList, "所有楼层", new { @class = "form-control select2", @Style = "width:150px" })
+                                        &nbsp&nbsp<button type="submit" id="QueryButton" class="btn btn-danger">查询</button> &nbsp&nbsp
+                                        @Html.ActionLink("新建", "AddAdmin", "DormitoryManager", "", new { @class = "btn btn-danger", })&nbsp&nbsp
+                                        <button type="button" id="DelButton" class="btn  btn-default">删除</button>
+                                    </h3>
+
+
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <div class="box-header">
+                                                <h3 class="box-title"></h3>
+                                            </div><!-- /.box-header -->
+                                            <div class="box-body">
+                                                <table id="usersTable" class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="display:none">ID</th>
+                                                            <th>人员姓名</th>
+                                                            <th>工作类型</th>
+                                                            <th>工作时间段</th>
+                                                            <th>负责公寓</th>
+                                                            <th>负责楼层</th>
+                                                            <th>职务</th>
+                                                            <th>联系方式</th>
+                                                            <th>备注</th>
+                                                            <th style="width:50px">编辑</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (AdminInfoItemViewModel vTempHouse in Model.AdminList)
+                                                        {
+                                                            <tr class="even gradeA">
+                                                                <td style="display:none">@vTempHouse.ID</td>
+                                                                <td>@vTempHouse.Name</td>
+                                                                <td>@vTempHouse.WorkType</td>
+                                                                <td>@vTempHouse.WorkTime</td>
+                                                                <td>@vTempHouse.Dormitory</td>
+                                                                <td>@vTempHouse.Floor</td>
+                                                                <td>@vTempHouse.Duty</td>
+                                                                <td>@vTempHouse.Tel</td>
+                                                                <td>@vTempHouse.Memo</td>
+                                                                <td>@Html.ActionLink("编辑", "EditAdmin", "DormitoryManager", new { ID = vTempHouse.ID },null)</td>
+                                                            </tr>
+                                                        }
+                                                </table>
+                                            </div><!-- /.box-body -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                </div>
+                            </div><!-- /.box -->
+                        </div><!--/.col (left) -->
+                    </div>   <!-- /.row -->
+                </section><!-- /.content -->
+            }
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+    <script>
+        var table;
+        $(document).ready(function () {
+            $(function () {
+                table = $('#usersTable').DataTable({
+                    responsive: true,
+                    Retrieve: true,
+                    'language': {
+                        'search': '搜索:',
+                        'zeroRecords': "没有记录",
+                        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                        'lengthMenu': '显示 _MENU_ 条记录',
+                        "order": [[3, "desc"]],
+                        paginate: {
+                            previous: '‹',
+                            next: '›'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: '上一页',
+                                next: '下一页'
+                            }
+                        }
+                    }
+                });
+
+                $(".select2").select2();
+            });
+
+            $('#usersTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+        })
+
+        $("#DormitorySelected").change(function () {
+            var selectValue = $("#DormitorySelected").val();
+
+            $("#FloorSelected").empty();
+            $("<option></option>").val("").text("---请选择---").appendTo($("#FloorSelected"))
+
+            GetCounty(selectValue, "#FloorSelected");
+        });
+
+        function GetCounty(pid, control) {
+            $.getJSON(
+            "/DormitoryManager/QueryFloorByDormitory",
+            { DormitoryID: pid },
+            function (data) {
+                for (var i = 1; i <= data; i++)
+                {
+                    $("<option></option>").val(i).text(i+"楼").appendTo($(control));
+                }
+            });
+        }
+
+        $('#DelButton').click(function () {
+
+            var selectRows = table.rows('.selected').indexes();
+            var count = table.rows('.selected').data().length;
+            if (count == 0) {
+                alert("请选择需要删除的管理人员");
+                return;
+            }
+            if (confirm("确定删除选择的管理人员？")) {
+                var i = 0;
+                var code = "";
+                for (i; i < count; i++) {
+                    var tempData = table.rows(selectRows[i]).data();
+                    code += tempData[0][0] + "|";
+                    //table.rows(selectRows[i]).remove().draw(false);
+                }
+                $.getJSON(
+                       "/DormitoryManager/DeleteHouse",
+                       { IDS: code },
+                       function (result) {
+                           if (result) {
+                               table.rows('.selected').remove().draw(false);
+                           }
+                       }
+                  )
+            }
+        });
+    </script>
+</body>

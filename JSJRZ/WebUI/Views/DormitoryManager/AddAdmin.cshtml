@@ -1,13 +1,12 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.HouseAllotViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.AddAdminViewModel
 @using System.Web.Optimization
 @{
-    ViewBag.Title = "房间分配";
+    ViewBag.Title = "增加管理人员";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
-}
-@section CSS{
 }
 @section JS {
     @Scripts.Render("~/bundles/jqueryval")
+
 }
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
     <div class="wrapper">
@@ -16,13 +15,13 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    房间分配
+                    增加管理人员
                 </h1>
             </section>
 
             <!-- Main content -->
             <section class="content">
-                @using (Html.BeginForm("HouseAllot", "DormitoryManager", FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("AddAdmin", "DormitoryManager", FormMethod.Post, new { role = "form" }))
                 {
                     <div class="row">
                         <!-- left column -->
@@ -33,9 +32,8 @@
                                     <h3 class="box-title"><button type="submit" class="btn btn-danger">保存</button>&nbsp&nbsp<button type="button" onclick="history.go(-1)" class="btn btn-default">返回</button></h3>
                                     <h4 class="text-left">
                                         <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                        @*<p>@Html.ValidationMessageFor(m => m.DormitoryID, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.Floor, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.BedNumber, "", new { @class = "text-danger" })</p>*@
+                                        <p>@Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })</p>
+                                        <p>@Html.ValidationMessageFor(m => m.Dormitory, "", new { @class = "text-danger" })</p>
                                     </h4>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
@@ -43,31 +41,36 @@
                                     <div class="col-md-6">
                                         <div class="box-body">
                                             <div class="form-group">
-                                                <label>公寓楼</label>
-                                                @Html.TextBoxFor(m => m.DormitoryName, new { @class = "form-control" ,@readonly="" })
-                                                @Html.HiddenFor(m => m.HouseID)
+                                                <label>姓名<a style="color:red">*</a></label>
+                                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", placeholder = "请输入姓名" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>工作类型</label>
+                                                @Html.TextBoxFor(m => m.Floor, new { @class = "form-control", placeholder = "请输入工作类型" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>公寓楼<a style="color:red">*</a></label>
+                                                @Html.DropDownListFor(m => m.Dormitory, Model.DormitoryList, "请选择公寓楼", new { @class = "form-control" })
                                             </div>
                                             <div class="form-group">
                                                 <label>楼层</label>
-                                                @Html.TextBoxFor(m => m.FloorName, new { @class = "form-control", @readonly = "" })
+                                                @Html.DropDownListFor(m => m.Floor, new List<SelectListItem>(), "请选择公寓楼", new { @class = "form-control" })
                                             </div>
                                             <div class="form-group">
-                                                <label>房间编号<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.HouseNumber, new { @class = "form-control", @readonly = "" })
+                                                <label>工作时间段</label>
+                                                @Html.TextBoxFor(m => m.WorkTime, new { @class = "form-control", placeholder = "请输入工作时间段" })
                                             </div>
                                             <div class="form-group">
-                                                <label>床位数<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.BedNumber, new { @class = "form-control", @readonly = "" })
+                                                <label>职务</label>
+                                                @Html.TextBoxFor(m => m.Duty, new { @class = "form-control", placeholder = "请输入职务" })
                                             </div>
                                             <div class="form-group">
-                                                <label>面积</label>
-                                                @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @readonly = "" })
+                                                <label>联系方式</label>
+                                                @Html.TextBoxFor(m => m.Tel, new { @class = "form-control", placeholder = "请输入联系方式" })
                                             </div>
                                             <div class="form-group">
-                                                <label>住宿学生</label>
-                                                @Html.TextAreaFor(m => m.StudentName, new { @class = "form-control", @readonly = "" })
-                                                <button type="button" class="btn btn-danger">选择</button>
-                                                @Html.HiddenFor(m => m.StudentID)
+                                                <label>备注</label>
+                                                @Html.TextAreaFor(m => m.Memo, new { @class = "form-control", placeholder = "请输入备注" })
                                             </div>
                                         </div><!-- /.box-body -->
                                     </div>

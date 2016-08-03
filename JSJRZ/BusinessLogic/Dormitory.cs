@@ -62,13 +62,23 @@ namespace MXKJ.BusinessLogic
             return vResult;
         }
 
-        public Dormitory_HouseViewEF[] GetHouseInfoByDormitory(int DormitoryID, int Floor)
+        public Dormitory_HouseViewEF[] QueryHouseInfoByDormitory(int DormitoryID, int Floor)
         {
             Dormitory_HouseViewEF[] vResult = new Dormitory_HouseViewEF[0];
             Dormitory_HouseViewEF vHouseEF = new Dormitory_HouseViewEF();
-            vHouseEF.DormitoryID = DormitoryID;
-            vHouseEF.Floor = Floor;
-            vResult = m_BasicDBClass.SelectRecordsEx(vHouseEF);
+            if (DormitoryID == 0)
+                vResult = m_BasicDBClass.SelectAllRecordsEx<Dormitory_HouseViewEF>();
+            else if (Floor == 0)
+            {
+                vHouseEF.DormitoryID = DormitoryID;
+                vResult = m_BasicDBClass.SelectRecordsEx(vHouseEF);
+            }
+            else
+            {
+                vHouseEF.DormitoryID = DormitoryID;
+                vHouseEF.Floor = Floor;
+                vResult = m_BasicDBClass.SelectRecordsEx(vHouseEF);
+            }
             return vResult;
         }
 
@@ -103,6 +113,7 @@ namespace MXKJ.BusinessLogic
                         DormitoryID = DormitoryID,
                         Area = Area,
                         BedNumber = BedNumber,
+                        ResidueBed = BedNumber,
                         Floor = i,
                         IsUse = true,
                         Number = string.Format("{0}{1}-{2}", Unit, i, j)
@@ -147,6 +158,81 @@ namespace MXKJ.BusinessLogic
                     m_BasicDBClass.TransactionRollback();
             }
             return vResult;
+        }
+        #endregion
+
+        #region 管理人员
+        public bool DeleteAdmin( string IDStr)
+        {
+            if (IDStr.Length > 0)
+                IDStr = IDStr.Remove(IDStr.Length - 1);
+            IDStr = IDStr.Replace('|', ',');
+            return m_BasicDBClass.DeleteRecordCustom<Dormitory_AdminEF>(string.Format("ID in ({0})", IDStr));
+        }
+
+        public Dormitory_AdminViewEF[] GetAllAdminInfo()
+        {
+            return m_BasicDBClass.SelectAllRecordsEx<Dormitory_AdminViewEF>();
+        }
+
+        public Dormitory_AdminViewEF[] QueryAdminInfoByDormitory(int DormitoryID, int Floor)
+        {
+            Dormitory_AdminViewEF [] vResult = new Dormitory_AdminViewEF[0];
+            Dormitory_AdminViewEF vAdminEF = new Dormitory_AdminViewEF();
+            if (DormitoryID == 0)
+                vResult = m_BasicDBClass.SelectAllRecordsEx<Dormitory_AdminViewEF>();
+            else if (Floor == 0)
+            {
+                vAdminEF.Dormitory = DormitoryID;
+                vResult = m_BasicDBClass.SelectRecordsEx(vAdminEF);
+            }
+            else
+            {
+                vAdminEF.Dormitory = DormitoryID;
+                vAdminEF.Floor = Floor;
+                vResult = m_BasicDBClass.SelectRecordsEx(vAdminEF);
+            }
+            return vResult;
+        }
+
+        public Dormitory_AdminViewEF GetAdminInfoByID( int AdminID )
+        {
+            return m_BasicDBClass.SelectRecordByPrimaryKeyEx<Dormitory_AdminViewEF>(AdminID);
+        }
+
+        public bool AddAdmin( string Name, string WorkType, string WorkTime,
+            int Dormitory, int Floor, string Duty, string Tel, string Memo)
+        {
+            Dormitory_AdminEF vAdminEF = new Dormitory_AdminEF()
+            {
+                Dormitory = Dormitory,
+                Duty = Duty,
+                Floor = Floor,
+                Memo = Memo,
+                Name = Name,
+                Tel = Tel,
+                WorkTime = WorkTime,
+                WorkType = WorkType
+            };
+            return m_BasicDBClass.InsertRecord(vAdminEF)>=0?true:false ;
+        }
+
+        public bool UpdateAdminInfo( int AdminID,string Name,string WorkType,string WorkTime,
+            int Dormitory,int Floor,string Duty,string Tel,string Memo)
+        {
+            Dormitory_AdminEF vAdminEF = new Dormitory_AdminEF()
+            {
+                ID = AdminID,
+                Dormitory = Dormitory,
+                Duty = Duty,
+                Floor = Floor,
+                Memo = Memo,
+                Name = Name,
+                Tel = Tel,
+                WorkTime = WorkTime,
+                WorkType = WorkType
+            };
+            return m_BasicDBClass.UpdateRecord(vAdminEF);
         }
         #endregion
 

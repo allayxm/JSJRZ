@@ -26,6 +26,12 @@ namespace MXKJ.Entity
         public bool? IsUse { get; set; }
         [ColumnAttrib("DormitoryName")]
         public String DormitoryName { get; set; }
+        [ColumnAttrib("ResidueBed")]
+        public int? ResidueBed { get; set; }
+        [ColumnAttrib("StudentName")]
+        public String StudentName { get; set; }
+        [ColumnAttrib("StudentID")]
+        public String StudentID { get; set; }
     }
 
 }

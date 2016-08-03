@@ -1,7 +1,7 @@
 ﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.HouseAllotViewModel
 @using System.Web.Optimization
 @{
-    ViewBag.Title = "房间分配";
+    ViewBag.Title = "学生选择";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
 }
 @section CSS{
@@ -16,7 +16,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    房间分配
+                    学生选择
                 </h1>
             </section>
 
@@ -34,8 +34,8 @@
                                     <h4 class="text-left">
                                         <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                                         @*<p>@Html.ValidationMessageFor(m => m.DormitoryID, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.Floor, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.BedNumber, "", new { @class = "text-danger" })</p>*@
+                                            <p>@Html.ValidationMessageFor(m => m.Floor, "", new { @class = "text-danger" })</p>
+                                            <p>@Html.ValidationMessageFor(m => m.BedNumber, "", new { @class = "text-danger" })</p>*@
                                     </h4>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
@@ -44,7 +44,7 @@
                                         <div class="box-body">
                                             <div class="form-group">
                                                 <label>公寓楼</label>
-                                                @Html.TextBoxFor(m => m.DormitoryName, new { @class = "form-control" ,@readonly="" })
+                                                @Html.TextBoxFor(m => m.DormitoryName, new { @class = "form-control", @readonly = "" })
                                                 @Html.HiddenFor(m => m.HouseID)
                                             </div>
                                             <div class="form-group">
@@ -65,8 +65,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label>住宿学生</label>
-                                                @Html.TextAreaFor(m => m.StudentName, new { @class = "form-control", @readonly = "" })
-                                                <button type="button" class="btn btn-danger">选择</button>
+                                                @Html.TextBoxFor(m => m.StudentName, new { @class = "form-control", @readonly = "" })
                                                 @Html.HiddenFor(m => m.StudentID)
                                             </div>
                                         </div><!-- /.box-body -->

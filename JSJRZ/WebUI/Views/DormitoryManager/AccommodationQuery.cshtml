@@ -1,0 +1,181 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.AccommodationQueryViewModel
+@using MXKJ.JSJRZ.WebUI.Models.DormitoryManager
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "住宿查询";
+    Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
+
+}
+@section CSS{
+    <!-- DataTables -->
+    @Styles.Render("~/bundles/DataTable/css")
+    @Styles.Render("~/bundles/select2/css")
+}
+@section JS{
+    <!-- DataTables -->
+    @Scripts.Render("~/bundles/DataTable/js")
+    @Scripts.Render("~/bundles/select2/js")
+}
+<body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    住宿查询
+                </h1>
+            </section>
+
+            <!-- Main content -->@using (Html.BeginForm("AccommodationQuery", "DormitoryManager", FormMethod.Post, new { role = "form" }))
+            {
+                <section class="content">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <div class="box-header with-border text-left">
+
+                                    <h3 class="box-title">
+                                        公寓楼:@Html.DropDownListFor(m => m.DormitorySelected, (List<SelectListItem>)Model.DormitoryList, "所有公寓楼", new { @class = "form-control select2", @Style = "width:200px" })
+                                        楼层:@Html.DropDownListFor(m => m.FloorSelected, (List<SelectListItem>)Model.FloorList, "所有楼层", new { @class = "form-control select2", @Style = "width:150px" })
+                                        &nbsp&nbsp<button type="submit" id="DelButton" class="btn btn-danger">查询</button>
+                                    </h3>
+
+
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <div class="box-header">
+                                                <h3 class="box-title"></h3>
+                                            </div><!-- /.box-header -->
+                                            <div class="box-body">
+                                                <table id="usersTable" class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="display:none">ID</th>
+                                                            <th>建筑名称</th>
+                                                            <th>楼层</th>
+                                                            <th>房间编号</th>
+                                                            <th>面积</th>
+                                                            <th>床位数</th>
+                                                            <th>剩余床位</th>
+                                                            <th>住宿学生</th>
+                                                            <th>是否在用</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (AccommodationQueryItemViewModel vTempHouse in Model.HouseList)
+                                                        {
+                                                            <tr class="even gradeA">
+                                                                <td style="display:none">@vTempHouse.ID</td>
+                                                                <td>@vTempHouse.DormitoryName</td>
+                                                                <td>@vTempHouse.Floor</td>
+                                                                <td>@vTempHouse.Number</td>
+                                                                <td>@vTempHouse.Area</td>
+                                                                <td>@vTempHouse.BedNumber</td>
+                                                                <td>@vTempHouse.ResidueBed</td>
+                                                                <td>@{
+                                                                    if (vTempHouse.StudentName != null && vTempHouse.StudentID != null)
+                                                                    {
+                                                                        string[] vStudentIDArray = vTempHouse.StudentID.Split(',');
+                                                                        string[] vStudentNameArray = vTempHouse.StudentName.Split(',');
+                                                                        if (vStudentNameArray.Length == vStudentIDArray.Length)
+                                                                        {
+                                                                            for (int i = 0; i < vStudentIDArray.Length; i++)
+                                                                            {
+                                                                                <p>@Html.ActionLink(vStudentNameArray[i], "StudentInfo", "DormitoryManager", new { ID = vStudentIDArray[i].ToString() },null)</p>
+                                                                                @*if (i / 2 != 0)
+                                                                                {
+                                                                                    @Html.ActionLink(vStudentNameArray[i], "StudentInfo", "DormitoryManager", new { ID = vStudentIDArray[i] })
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <a>&nbsp&nbsp</a>@Html.ActionLink(vStudentNameArray[i], "StudentInfo", "DormitoryManager", new { ID = vStudentIDArray[i] })<br />
+                                                                                }*@
+
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            @vTempHouse.StudentName;
+                                                                            }
+                                                                        }
+
+                                                                    }
+                                                                </td>
+                                                                <td>@(vTempHouse.IsUse == true ? Html.Raw("<a style='color:green'>在用</a>") : Html.Raw("<a style='color:red'>停用</a>"))</td>
+                                                            </tr>
+                                                        }
+                                                </table>
+                                            </div><!-- /.box-body -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                </div>
+                            </div><!-- /.box -->
+                        </div><!--/.col (left) -->
+                    </div>   <!-- /.row -->
+                </section><!-- /.content -->
+            }
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+    <script>
+        var table;
+        $(document).ready(function () {
+            $(function () {
+                table = $('#usersTable').DataTable({
+                    responsive: true,
+                    Retrieve: true,
+                    'language': {
+                        'search': '搜索:',
+                        'zeroRecords': "没有记录",
+                        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                        'lengthMenu': '显示 _MENU_ 条记录',
+                        "order": [[3, "desc"]],
+                        paginate: {
+                            previous: '‹',
+                            next: '›'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: '上一页',
+                                next: '下一页'
+                            }
+                        }
+                    }
+                });
+
+                $(".select2").select2();
+            });
+
+            $('#usersTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+        })
+
+        $("#DormitorySelected").change(function () {
+            var selectValue = $("#DormitorySelected").val();
+
+            $("#FloorSelected").empty();
+            $("<option></option>").val("").text("---请选择---").appendTo($("#FloorSelected"))
+
+            GetCounty(selectValue, "#FloorSelected");
+        });
+
+        function GetCounty(pid, control) {
+            $.getJSON(
+            "/DormitoryManager/QueryFloorByDormitory",
+            { DormitoryID: pid },
+            function (data) {
+                for (var i = 1; i <= data; i++)
+                {
+                    $("<option></option>").val(i).text(i+"楼").appendTo($(control));
+                }
+            });
+        }
+    </script>
+</body>

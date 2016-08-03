@@ -40,9 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dormitory_AdminViewEF.cs" />
     <Compile Include="Dormitory_HouseEF.cs" />
     <Compile Include="Dormitory_HouseViewEF.cs" />
     <Compile Include="Dormitory_ItemsEF.cs" />
+    <Compile Include="Dormitory_Admin.cs" />
+    <Compile Include="Edu_StudentsEF.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

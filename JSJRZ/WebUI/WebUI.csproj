@@ -1038,14 +1038,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\DormitoryManager\AccommodationQueryViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\AddAdminViewModel.cs" />
     <Compile Include="Models\DormitoryManager\AddDormitoryViewModel.cs" />
     <Compile Include="Models\DormitoryManager\AddHouseViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\AdminInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\CreateHouseViewModel.cs" />
     <Compile Include="Models\DormitoryManager\DormitoryInfoViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\EditAdminViewModel.cs" />
     <Compile Include="Models\DormitoryManager\EditDormitoryViewModel.cs" />
     <Compile Include="Models\DormitoryManager\EditHouseViewModel.cs" />
-    <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\HouseAllotInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\HouseInfoViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
+    <Compile Include="Models\DormitoryManager\StudentInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1067,7 +1073,14 @@
     <Content Include="Views\DormitoryManager\CreateHouse.cshtml" />
     <Content Include="Views\DormitoryManager\EditHouse.cshtml" />
     <Content Include="Views\DormitoryManager\AddHouse.cshtml" />
+    <Content Include="Views\DormitoryManager\HouseAllotInfo.cshtml" />
     <Content Include="Views\DormitoryManager\HouseAllot.cshtml" />
+    <Content Include="Views\Common\StudentSelect.cshtml" />
+    <Content Include="Views\DormitoryManager\AccommodationQuery.cshtml" />
+    <Content Include="Views\DormitoryManager\StudentInfo.cshtml" />
+    <Content Include="Views\DormitoryManager\AdminInfo.cshtml" />
+    <Content Include="Views\DormitoryManager\AddAdmin.cshtml" />
+    <Content Include="Views\DormitoryManager\EditAdmin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1086,6 +1099,10 @@
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
       <Project>{923d09a7-153b-4ae9-84e1-82f97ea3f296}</Project>
       <Name>BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{9ce15fe0-593d-4018-a618-bf6a2ecf86ca}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{28eb4554-14d6-4df9-877a-54ef72f714cd}</Project>

@@ -7,7 +7,7 @@
     <ProjectGuid>{9CE15FE0-593D-4018-A618-BF6A2ECF86CA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Common</RootNamespace>
+    <RootNamespace>MXKJ.Common</RootNamespace>
     <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="ReturnResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeStamp.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

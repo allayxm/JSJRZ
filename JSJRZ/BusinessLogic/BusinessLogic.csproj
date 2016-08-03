@@ -43,6 +43,7 @@
     <Compile Include="BusinessLogicBase.cs" />
     <Compile Include="Dormitory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Student.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\DBMiddleWare\DBMiddleWareLib\DBMiddleWareLib.csproj">
