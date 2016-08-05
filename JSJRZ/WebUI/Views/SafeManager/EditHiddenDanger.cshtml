@@ -1,0 +1,75 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.EditHiddenDangerViewModel
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "编辑隐患整改记录";
+    Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
+}
+@section JS {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+<body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    编辑隐患整改记录
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                @using (Html.BeginForm("EditHiddenDanger", "SafeManager", FormMethod.Post, new { role = "form" }))
+                {
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <div class="box-header with-border text-right">
+                                    <h3 class="box-title"><button type="submit" class="btn btn-danger">保存</button>&nbsp&nbsp<button type="button" onclick="history.go(-1)" class="btn btn-default">返回</button></h3>
+                                    <h4 class="text-left">
+                                        <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
+                                        <p>@Html.ValidationMessageFor(m => m.Organizer, "", new { @class = "text-danger" })</p>
+                                        <p>@Html.ValidationMessageFor(m => m.CheckTime, "", new { @class = "text-danger" })</p>
+                                    </h4>
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="box-body">
+                                            <div class="form-group">
+                                                <label>组织者<a style="color:red">*</a></label>
+                                                @Html.TextBoxFor(m => m.Organizer, new { @class = "form-control", placeholder = "请输入组织者" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>检查时间<a style="color:red">*</a></label>
+                                                @Html.TextBoxFor(m => m.CheckTime, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = "请输入检查时间" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>参加人员</label>
+                                                @Html.TextAreaFor(m => m.Participant, 6, 50, new { @class = "form-control", placeholder = "请输入参加人员" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>整改内容</label>
+                                                @Html.TextAreaFor(m => m.RectificationMeasures, 6, 50, new { @class = "form-control", placeholder = "请输入整改内容" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>地点</label>
+                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "请输入地点" })
+                                            </div>
+                                        </div><!-- /.box-body -->
+
+                                    </div>
+
+                                </div>
+                            </div><!-- /.box -->
+                        </div><!--/.col (left) -->
+                    </div>   <!-- /.row -->
+                }
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+</body>

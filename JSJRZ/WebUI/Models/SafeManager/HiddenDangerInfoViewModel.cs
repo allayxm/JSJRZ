@@ -8,7 +8,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.SafeManager
 {
     public class HiddenDangerInfoViewModel
     {
-        public List<HiddenDangerInfoItemViewModel> HouseList { get; set; } = new List<HiddenDangerInfoItemViewModel>();
+        public List<HiddenDangerInfoItemViewModel> ItemList { get; set; } = new List<HiddenDangerInfoItemViewModel>();
 
     }
 

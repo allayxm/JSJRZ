@@ -1087,6 +1087,8 @@
     <Content Include="Views\DormitoryManager\EditAdmin.cshtml" />
     <Content Include="Views\SafeManager\HiddenDangerInfo.cshtml" />
     <Content Include="Views\Shared\_LayoutHiddenDangerInfo.cshtml" />
+    <Content Include="Views\SafeManager\AddHiddenDanger.cshtml" />
+    <Content Include="Views\SafeManager\EditHiddenDanger.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

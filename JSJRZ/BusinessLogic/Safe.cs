@@ -48,6 +48,14 @@ namespace MXKJ.BusinessLogic
             };
             return m_BasicDBClass.UpdateRecord(vData);
         }
+
+        public bool DeleteHiddenDanger(string IDStr)
+        {
+            if (IDStr.Length > 0)
+                IDStr = IDStr.Remove(IDStr.Length - 1);
+            IDStr = IDStr.Replace('|', ',');
+            return m_BasicDBClass.DeleteRecordCustom<HiddenDangerEF>(string.Format("ID in ({0})", IDStr));
+        }
         #endregion
     }
 }

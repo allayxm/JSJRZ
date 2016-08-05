@@ -29,13 +29,15 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                     Participant = vTempData.Participant,
                     RectificationMeasures = vTempData.RectificationMeasures
                 };
+                vModel.ItemList.Add(vNewItem);
             }
-            return View();
+            return View(vModel);
         }
 
         public ActionResult AddHiddenDanger()
         {
             AddHiddenDangerViewModel vModel = new AddHiddenDangerViewModel();
+            vModel.CheckTime = DateTime.Today;
             return View(vModel);
         }
 
@@ -49,7 +51,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 return RedirectToAction("HiddenDangerInfo", "SafeManager");
             else
             {
-                ModelState.AddModelError("", "插入记录失败");
+                ModelState.AddModelError("", "插入隐患整改记录失败");
                 return View(Model);
             }
         }
@@ -81,9 +83,16 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 return RedirectToAction("HiddenDangerInfo", "SafeManager");
             else
             {
-                ModelState.AddModelError("", "更新记录失败");
+                ModelState.AddModelError("", "更新隐患整改记录失败");
                 return View(Model);
             }
+        }
+
+        public JsonResult DeleteHiddenDanger(string IDS)
+        {
+            Safe vSafe = new Safe();
+            bool vResult = vSafe.DeleteHiddenDanger(IDS);
+            return Json(vResult, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
