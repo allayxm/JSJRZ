@@ -1,8 +1,8 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.HiddenDangerInfoViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.SafetyCheckInfoViewModel
 @using MXKJ.JSJRZ.WebUI.Models.SafeManager
 @using System.Web.Optimization
 @{
-    ViewBag.Title = "隐患整改记录";
+    ViewBag.Title = "四防安全检查记录";
     Layout = "~/Views/Shared/_LayoutSafe.cshtml";
 }
 @section CSS{
@@ -20,7 +20,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    隐患整改记录
+                    四防安全检查记录
                 </h1>
             </section>
 
@@ -33,7 +33,7 @@
                         <div class="box box-primary">
                             <div class="box-header with-border text-left">
                                 <h3 class="box-title">
-                                    @Html.ActionLink("新建", "AddHiddenDanger", "SafeManager", null, new { @class = "btn btn-danger", })&nbsp&nbsp
+                                    @Html.ActionLink("新建", "AddSafetyCheck", "SafeManager", null, new { @class = "btn btn-danger", })&nbsp&nbsp
                                     <button type="button" id="DelButton" class="btn  btn-default">删除</button>
                                 </h3>
 
@@ -50,25 +50,25 @@
                                                 <thead>
                                                     <tr>
                                                         <th style="display:none">ID</th>
-                                                        <th>组织者</th>
                                                         <th>检查时间</th>
-                                                        <th>参加人员</th>
-                                                        <th>整改内容</th>
-                                                        <th>地点</th>
+                                                        <th>检查部位</th>
+                                                        <th>检查情况</th>
+                                                        <th>检查人员</th>
+                                                        <th>备注</th>
                                                         <th style="width:50px">编辑</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (HiddenDangerInfoItemViewModel vTempItem in Model.ItemList)
+                                                    @foreach (SafetyCheckInfoItemViewModel vTempItem in Model.ItemList)
                                                     {
                                                         <tr class="even gradeA">
                                                             <td style="display:none">@vTempItem.ID</td>
-                                                            <td>@vTempItem.Organizer</td>
-                                                            <td>@vTempItem.CheckTime.ToString("yyyy年MM月dd日")</td>
-                                                            <td>@vTempItem.Participant</td>
-                                                            <td>@vTempItem.RectificationMeasures</td>
-                                                            <td>@vTempItem.Address</td>
-                                                            <td>@Html.ActionLink("编辑", "EditHiddenDanger", "SafeManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success" })</td>
+                                                            <td>@vTempItem.Time.ToString("yyyy年MM月dd日")</td>
+                                                            <td>@vTempItem.Position</td>
+                                                            <td>@vTempItem.Condition</td>
+                                                            <td>@vTempItem.Crew</td>
+                                                            <td>@vTempItem.Memo</td>
+                                                            <td>@Html.ActionLink("编辑", "EditSafetyCheck", "SafeManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success" })</td>
                                                         </tr>
                                                     }
                                             </table>
@@ -131,7 +131,7 @@
                         //table.rows(selectRows[i]).remove().draw(false);
                     }
                     $.getJSON(
-                           "/SafeManager/DeleteHiddenDanger",
+                           "/SafeManager/DeleteSafetyCheck",
                            { IDS: code },
                            function (result) {
                                if (result) {

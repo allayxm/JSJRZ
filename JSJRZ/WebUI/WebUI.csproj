@@ -70,10 +70,6 @@
       <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Web.Optimization.Extensions, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Web.Optimization.Extensions.1.0.3\lib\net45\System.Web.Optimization.Extensions.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -1019,6 +1015,7 @@
     <Content Include="plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="plugins\input-mask\phone-codes\phone-codes.json" />
     <None Include="Properties\PublishProfiles\1.pubxml" />
+    <None Include="Properties\PublishProfiles\发布.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -1053,9 +1050,18 @@
     <Compile Include="Models\DormitoryManager\HouseInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
     <Compile Include="Models\DormitoryManager\StudentInfoViewModel.cs" />
+    <Compile Include="Models\SafeManager\AddEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
+    <Compile Include="Models\SafeManager\AddFireFightingViewModel.cs" />
+    <Compile Include="Models\SafeManager\AddSafetyCheckViewModel.cs" />
+    <Compile Include="Models\SafeManager\EditEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\EditHiddenDangerViewModel.cs" />
+    <Compile Include="Models\SafeManager\EditFireFightingViewModel.cs" />
+    <Compile Include="Models\SafeManager\EditSafetyCheckViewModel.cs" />
+    <Compile Include="Models\SafeManager\EducationInfoViewModel.cs" />
     <Compile Include="Models\SafeManager\HiddenDangerInfoViewModel.cs" />
+    <Compile Include="Models\SafeManager\FireFightingInfoViewModel.cs" />
+    <Compile Include="Models\SafeManager\SafetyCheckInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1086,9 +1092,18 @@
     <Content Include="Views\DormitoryManager\AddAdmin.cshtml" />
     <Content Include="Views\DormitoryManager\EditAdmin.cshtml" />
     <Content Include="Views\SafeManager\HiddenDangerInfo.cshtml" />
-    <Content Include="Views\Shared\_LayoutHiddenDangerInfo.cshtml" />
+    <Content Include="Views\Shared\_LayoutSafe.cshtml" />
     <Content Include="Views\SafeManager\AddHiddenDanger.cshtml" />
     <Content Include="Views\SafeManager\EditHiddenDanger.cshtml" />
+    <Content Include="Views\SafeManager\SafetyCheckInfo.cshtml" />
+    <Content Include="Views\SafeManager\AddSafetyCheck.cshtml" />
+    <Content Include="Views\SafeManager\EditSafetyCheck.cshtml" />
+    <Content Include="Views\SafeManager\FireFightingInfo.cshtml" />
+    <Content Include="Views\SafeManager\AddFireFighting.cshtml" />
+    <Content Include="Views\SafeManager\EditFireFighting.cshtml" />
+    <Content Include="Views\SafeManager\EducationInfo.cshtml" />
+    <Content Include="Views\SafeManager\AddEducation.cshtml" />
+    <Content Include="Views\SafeManager\EditEducation.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace MXKJ.Entity
 {
-    [TableAttrib("edu_hiddendanger", "ID")]
-    public struct HiddenDangerEF
+    [TableAttrib("edu_safe_hiddendanger", "ID")]
+    public struct Safe_HiddenDangerEF
     {
         [ColumnAttrib("ID")]
         public int? ID { get; set; }

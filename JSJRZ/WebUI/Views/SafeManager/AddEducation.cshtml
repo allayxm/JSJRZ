@@ -1,7 +1,7 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.AddHiddenDangerViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.AddEducationViewModel
 @using System.Web.Optimization
 @{
-    ViewBag.Title = "增加隐患整改记录";
+    ViewBag.Title = "增加学生安全教育记录";
     Layout = "~/Views/Shared/_LayoutSafe.cshtml";
 }
 @section JS {
@@ -15,13 +15,13 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    增加隐患整改记录
+                    增加学生安全教育记录
                 </h1>
             </section>
 
             <!-- Main content -->
             <section class="content">
-                @using (Html.BeginForm("AddHiddenDanger", "SafeManager", FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("AddEducation", "SafeManager", FormMethod.Post, new { role = "form" }))
                 {
                     <div class="row">
                         <!-- left column -->
@@ -32,8 +32,8 @@
                                     <h3 class="box-title"><button type="submit" class="btn btn-danger">保存</button>&nbsp&nbsp<button type="button" onclick="history.go(-1)" class="btn btn-default">返回</button></h3>
                                     <h4 class="text-left">
                                         <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.Organizer, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.CheckTime, "", new { @class = "text-danger" })</p>
+                                        <p>@Html.ValidationMessageFor(m => m.Theme, "", new { @class = "text-danger" })</p>
+                                        <p>@Html.ValidationMessageFor(m => m.Time, "", new { @class = "text-danger" })</p>
                                     </h4>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
@@ -41,24 +41,24 @@
                                     <div class="col-md-6">
                                         <div class="box-body">
                                             <div class="form-group">
-                                                <label>组织者<a style="color:red">*</a></label>
+                                                <label>主题<a style="color:red">*</a></label>
+                                                @Html.TextBoxFor(m => m.Theme, new { @class = "form-control", placeholder = "请输入主题" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>时间<a style="color:red">*</a></label>
+                                                @Html.TextBoxFor(m => m.Time, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = "请输入时间" })
+                                            </div>
+                                            <div class="form-group">
+                                                <label>组织者</label>
                                                 @Html.TextBoxFor(m => m.Organizer, new { @class = "form-control", placeholder = "请输入组织者" })
                                             </div>
                                             <div class="form-group">
-                                                <label>检查时间<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.CheckTime, "{0:yyyy-MM-dd}",new { @class = "form-control", placeholder = "请输入检查时间" })
+                                                <label>参与学生</label>
+                                                @Html.TextBoxFor(m => m.Student, new { @class = "form-control", placeholder = "请输入参与学生" })
                                             </div>
                                             <div class="form-group">
-                                                <label>参加人员</label>
-                                                @Html.TextAreaFor(m => m.Participant, 6,50,new { @class = "form-control", placeholder = "请输入参加人员" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>整改内容</label>
-                                                @Html.TextAreaFor(m => m.RectificationMeasures, 6, 50, new { @class = "form-control", placeholder = "请输入整改内容" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>地点</label>
-                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control", placeholder = "请输入地点" })
+                                                <label>描述</label>
+                                                @Html.TextBoxFor(m =>m.Describe, new { @class = "form-control", placeholder = "请输入描述" })
                                             </div>
                                         </div><!-- /.box-body -->
 

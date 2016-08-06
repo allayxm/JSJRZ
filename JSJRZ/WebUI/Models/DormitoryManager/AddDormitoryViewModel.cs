@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using MXKJ.Common;
 
 namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
 {
@@ -41,7 +42,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         };
 
         [Required]
-        [RegularExpression(@"^\+?[1-9][0-9]*$", ErrorMessage = "楼层必须是整数")]
+        [RegularExpression(Regular.Regular_PositiveInteger, ErrorMessage = "楼层必须是整数")]
         [Display(Name = "楼层")]
         public int? Storey { get; set; }
 
@@ -83,7 +84,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         };
 
         [Required]
-        [RegularExpression(@"^\+?[1-9][0-9]*$", ErrorMessage = "房间数必须是整数")]
+        [RegularExpression(Regular.Regular_PositiveInteger, ErrorMessage = "房间数必须是整数")]
         [Display(Name = "每层最大房间数")]
         public int? LyaerHouseNumber { get; set; }
 
