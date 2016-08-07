@@ -48,6 +48,13 @@ namespace MXKJ.JSJRZ.WebUI.App_Start
         "~/plugins/select2/select2.full.min.js"
         ));
             #endregion
+
+            #region 弹出层
+            bundles.Add(new ScriptBundle("~/bundles/layer/js").Include(
+       "~/plugins/layer/layer.js"
+       ));
+
+            #endregion
         }
     }
 }

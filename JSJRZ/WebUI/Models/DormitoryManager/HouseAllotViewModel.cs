@@ -13,6 +13,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         public string HouseNumber { get; set; }
         public string Area { get; set; }
         public int BedNumber { get; set; }
+        public string OldStudentID { get; set; }
         public string StudentID { get; set; }
         public string StudentName { get; set; }
     }

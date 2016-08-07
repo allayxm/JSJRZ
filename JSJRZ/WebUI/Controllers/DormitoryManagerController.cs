@@ -376,8 +376,41 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
 
         public ActionResult HouseAllot( int ID)
         {
-            HouseAllotViewModel vModel = new HouseAllotViewModel();
+            Dormitory vDormitory = new Dormitory();
+            Dormitory_HouseViewEF vHouseInfo = vDormitory.GetHouseInfoByID(ID);
+            HouseAllotViewModel vModel = new HouseAllotViewModel()
+            {
+                Area = vHouseInfo.Area,
+                StudentName = vHouseInfo.StudentName,
+                StudentID = vHouseInfo.StudentID,
+                BedNumber = vHouseInfo.BedNumber.Value,
+                DormitoryName = vHouseInfo.DormitoryName,
+                FloorName = vHouseInfo.Floor.Value + "楼",
+                HouseID = vHouseInfo.ID.Value,
+                HouseNumber = vHouseInfo.Number,
+                OldStudentID = vHouseInfo.StudentID
+            };
+
             return View(vModel);
+        }
+
+        [HttpPost]
+        public ActionResult HouseAllot(HouseAllotViewModel Model)
+        {
+            Dormitory vDormitory = new Dormitory();
+            if (Model.StudentID != "")
+                Model.StudentID = Model.StudentID.Remove(Model.StudentID.Length - 1);
+            if (Model.StudentName != "")
+                Model.StudentName = Model.StudentName.Remove(Model.StudentName.Length - 1);
+            bool vResult = vDormitory.HouseAllot(Model.HouseID, Model.BedNumber, Model.OldStudentID, Model.StudentID, Model.StudentName);
+            if (vResult)
+                return RedirectToAction("HouseAllotInfo", "DormitoryManager");
+            else
+            {
+                ModelState.AddModelError("", "房间分配失败");
+                return View(Model);
+            }
+            return View(Model);
         }
         #endregion
 

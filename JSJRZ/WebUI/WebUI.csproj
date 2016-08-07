@@ -837,6 +837,7 @@
     <Content Include="plugins\jvectormap\jquery-jvectormap-1.2.2.min.js" />
     <Content Include="plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="plugins\knob\jquery.knob.js" />
+    <Content Include="plugins\layer\layer.js" />
     <Content Include="plugins\morris\morris.css" />
     <Content Include="plugins\morris\morris.js" />
     <Content Include="plugins\morris\morris.min.js" />
@@ -1031,11 +1032,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\DormitoryManagerController.cs" />
     <Compile Include="Controllers\SafeManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Common\StudentSelectViewModel.cs" />
     <Compile Include="Models\DormitoryManager\AccommodationQueryViewModel.cs" />
     <Compile Include="Models\DormitoryManager\AddAdminViewModel.cs" />
     <Compile Include="Models\DormitoryManager\AddDormitoryViewModel.cs" />
@@ -1113,6 +1116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="plugins\layer\skin\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\DBMiddleWare\DBMiddleWareLib\DBMiddleWareLib.csproj">

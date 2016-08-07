@@ -141,9 +141,9 @@ namespace MXKJ.BusinessLogic
             if (vUsersArray.Length <= BedNumber)
             {
                 m_BasicDBClass.TransactionBegin();
-                vResult = m_BasicDBClass.UpdateRecord("Update Set HouseID=null Where ID in ({0})", OldStudentsID);
+                vResult = m_BasicDBClass.UpdateRecord(string.Format("Update edu_students Set HouseID=null Where ID in ({0})", OldStudentsID));
                 if ( vResult )
-                    vResult = m_BasicDBClass.UpdateRecord("Update Set HouseID={0} Where ID in ({0})", StudentsID);
+                    vResult = m_BasicDBClass.UpdateRecord(string.Format("Update edu_students Set HouseID={0} Where ID in ({1})", HouseID, StudentsID));
                 if (vResult)
                 {
                     Dormitory_HouseEF vHouseEF = new Dormitory_HouseEF();

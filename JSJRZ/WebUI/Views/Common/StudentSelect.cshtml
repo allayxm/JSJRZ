@@ -1,15 +1,17 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.DormitoryManager.HouseAllotViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.Common.StudentSelectViewModel
 @using System.Web.Optimization
 @{
     ViewBag.Title = "学生选择";
     Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
+
 }
 @section CSS{
+
 }
-@section JS {
-    @Scripts.Render("~/bundles/jqueryval")
+@section JS{
+
 }
-<body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
+<body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
     <div class="wrapper">
         <!-- Content Wrapper. Contains page content -->
         <div>
@@ -20,62 +22,156 @@
                 </h1>
             </section>
 
-            <!-- Main content -->
-            <section class="content">
-                @using (Html.BeginForm("HouseAllot", "DormitoryManager", FormMethod.Post, new { role = "form" }))
-                {
+            <!-- Main content -->@using (Html.BeginForm("StudentSelect", "Common", FormMethod.Post, new { role = "form" }))
+            {
+                <section class="content">
                     <div class="row">
                         <!-- left column -->
-                        <div class="col-md-12">
+                        <div class="col-lg-12">
                             <!-- general form elements -->
                             <div class="box box-primary">
-                                <div class="box-header with-border text-right">
-                                    <h3 class="box-title"><button type="submit" class="btn btn-danger">保存</button>&nbsp&nbsp<button type="button" onclick="history.go(-1)" class="btn btn-default">返回</button></h3>
-                                    <h4 class="text-left">
-                                        <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                        @*<p>@Html.ValidationMessageFor(m => m.DormitoryID, "", new { @class = "text-danger" })</p>
-                                            <p>@Html.ValidationMessageFor(m => m.Floor, "", new { @class = "text-danger" })</p>
-                                            <p>@Html.ValidationMessageFor(m => m.BedNumber, "", new { @class = "text-danger" })</p>*@
-                                    </h4>
+                                <div class="box-header with-border text-left" >
+                                    <h3 class="box-title">
+                                            年级:@Html.DropDownListFor(m => m.GradeSelected, Model.GradeList, new { @class = "form-group", @Style = "width:100px" })
+                                            班级:<select Style="width:100px" class="form-group" id="ClassSelected" name="ClassSelected"><option value="0">全部班级</option></select>
+                                            学生姓名:@Html.TextBoxFor(m => m.StudentName, new { @class = "form-group" })
+                                            &nbsp&nbsp<button type="button" id="QueryButton"  class="btn btn-danger">查询</button>&nbsp&nbsp<button type="button" id="SaveButton" class="btn btn-danger">保存</button>
+                                    </h3>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                                <label>公寓楼</label>
-                                                @Html.TextBoxFor(m => m.DormitoryName, new { @class = "form-control", @readonly = "" })
-                                                @Html.HiddenFor(m => m.HouseID)
-                                            </div>
-                                            <div class="form-group">
-                                                <label>楼层</label>
-                                                @Html.TextBoxFor(m => m.FloorName, new { @class = "form-control", @readonly = "" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>房间编号<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.HouseNumber, new { @class = "form-control", @readonly = "" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>床位数<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.BedNumber, new { @class = "form-control", @readonly = "" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>面积</label>
-                                                @Html.TextBoxFor(m => m.Area, new { @class = "form-control", @readonly = "" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>住宿学生</label>
-                                                @Html.TextBoxFor(m => m.StudentName, new { @class = "form-control", @readonly = "" })
-                                                @Html.HiddenFor(m => m.StudentID)
-                                            </div>
-                                        </div><!-- /.box-body -->
+                                    <div class="col-sm-5">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <select class="form-control" id="StudenSelected_Left" multiple="multiple"  style="height:200px"></select>
+                                            </div><!-- /.box-body -->
+                                        </div><!-- /.box -->
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <div class="box">
+                                            <div class="box-body text-center" style="height:200px">
+                                                <p><button type="button" id="Button_Right" style="width:50px" class="btn btn-default">></button></p>
+                                                <p><button type="button" id="Button_Right_All"  style="width:50px" class="btn btn-default">>></button></p>
+                                                <p><button type="button" id="Button_Left" style="width:50px" class="btn btn-default"><</button></p>
+                                                <p><button type="button" id="Button_Left_All" style="width:50px" class="btn btn-default"><<</button></p>
+                                            </div><!-- /.box-body -->
+                                        </div><!-- /.box -->
+                                    </div>
+
+                                    <div class="col-sm-5">
+                                        <div class="box">
+                                            <div class="box-body">
+                                                <select class="form-control" id="StudenSelected_Right" multiple="multiple" style="height:200px"></select>
+                                            </div><!-- /.box-body -->
+                                        </div><!-- /.box -->
                                     </div>
                                 </div>
                             </div><!-- /.box -->
                         </div><!--/.col (left) -->
                     </div>   <!-- /.row -->
-                }
-            </section><!-- /.content -->
+                </section><!-- /.content -->
+            }
         </div><!-- /.content-wrapper -->
     </div><!-- ./wrapper -->
+    <script>
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+        $("#Button_Right_All").click(function () {
+
+            $("#StudenSelected_Left option").each(function() {  
+                var studentSelectValue = $(this).val();
+                var studentSelectText = $(this).text();
+                $(this).remove();
+                $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Right"));
+            });        
+        });
+
+        $("#Button_Left_All").click(function () {
+
+            $("#StudenSelected_Right option").each(function () {
+                var studentSelectValue = $(this).val();
+                var studentSelectText = $(this).text();
+                $(this).remove();
+                $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Left"));
+            });
+        });
+
+        $("#Button_Right").click(function () {
+            var studentSelectValue = $("#StudenSelected_Left").val();
+            var studentSelectText = $("#StudenSelected_Left").find("option:selected").text();
+            $("#StudenSelected_Left").find("option:selected").remove();
+
+            $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Right"));
+        });
+
+        $("#Button_Left").click(function () {
+            var studentSelectValue = $("#StudenSelected_Right").val();
+            var studentSelectText = $("#StudenSelected_Right").find("option:selected").text();
+            $("#StudenSelected_Right").find("option:selected").remove();
+
+            $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Left"));
+        });
+
+
+
+        $("#QueryButton").click(function () {
+            var gradeSelectValue = $("#GradeSelected").val();
+            var classSelectValue = $("#ClassSelected").val();
+            var studentNameValue = $("#StudentName").val();
+            studentNameValue = encodeURI(studentNameValue);
+            $("#StudenSelected_Left").empty();
+
+            QueryStudent(gradeSelectValue, classSelectValue, studentNameValue, "#StudenSelected_Left");
+        });
+
+        $("#SaveButton").click(function () {
+
+            var hiddendValue = "";
+            var StudentValue = "";
+            $("#StudenSelected_Right option").each(function () {
+                var studentSelectValue = $(this).val();
+                var studentSelectText = $(this).text();
+                hiddendValue += studentSelectValue + ",";
+                StudentValue += studentSelectText + ",";
+               
+            });
+
+            parent.$('#StudentName').text(StudentValue);
+            parent.$('#StudentID').val(hiddendValue);
+            parent.layer.close(index);
+        });
+
+        function QueryStudent(gradeSelectValue,classSelectValue,studentNameValue, control) {
+            $.getJSON(
+            "/Common/QueryStudent",
+            { GradeID: gradeSelectValue, ClassID: classSelectValue, StudentName: studentNameValue },
+            function (data) {
+                $.each(data, function (i, item) {
+                    $("<option></option>").val(item.ID).text(item.Name).appendTo($(control));
+                })
+            });
+        }
+
+        $("#GradeSelected").change(function () {
+            var selectValue = $("#GradeSelected").val();
+
+            $("#ClassSelected").empty();
+            $("<option></option>").val(0).text("全部班级").appendTo($("#ClassSelected"))
+
+            GetClass(selectValue, "#ClassSelected");
+        });
+
+        function GetClass(pid, control) {
+            $.getJSON(
+            "/Common/QueryClassByGrade",
+            { GradeID: pid },
+            function (data) {
+                //$("<option></option>").val(0).text("全部年级").appendTo($(control));
+                $.each(data, function (i, item) {
+                    $("<option></option>").val(item.ID).text(item.Name).appendTo($(control));
+                })
+            });
+        }
+    </script>
 </body>

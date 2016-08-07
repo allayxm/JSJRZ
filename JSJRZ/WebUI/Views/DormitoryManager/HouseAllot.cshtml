@@ -8,6 +8,7 @@
 }
 @section JS {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/layer/js")
 }
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
     <div class="wrapper">
@@ -34,8 +35,8 @@
                                     <h4 class="text-left">
                                         <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
                                         @*<p>@Html.ValidationMessageFor(m => m.DormitoryID, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.Floor, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.BedNumber, "", new { @class = "text-danger" })</p>*@
+                                            <p>@Html.ValidationMessageFor(m => m.Floor, "", new { @class = "text-danger" })</p>
+                                            <p>@Html.ValidationMessageFor(m => m.BedNumber, "", new { @class = "text-danger" })</p>*@
                                     </h4>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
@@ -44,7 +45,7 @@
                                         <div class="box-body">
                                             <div class="form-group">
                                                 <label>公寓楼</label>
-                                                @Html.TextBoxFor(m => m.DormitoryName, new { @class = "form-control" ,@readonly="" })
+                                                @Html.TextBoxFor(m => m.DormitoryName, new { @class = "form-control", @readonly = "" })
                                                 @Html.HiddenFor(m => m.HouseID)
                                             </div>
                                             <div class="form-group">
@@ -66,8 +67,9 @@
                                             <div class="form-group">
                                                 <label>住宿学生</label>
                                                 @Html.TextAreaFor(m => m.StudentName, new { @class = "form-control", @readonly = "" })
-                                                <button type="button" class="btn btn-danger">选择</button>
+                                                <button type="button" id="SelectButton" class="btn btn-danger">选择</button>
                                                 @Html.HiddenFor(m => m.StudentID)
+                                                @Html.HiddenFor(m => m.OldStudentID)
                                             </div>
                                         </div><!-- /.box-body -->
                                     </div>
@@ -79,4 +81,18 @@
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
     </div><!-- ./wrapper -->
+    <script>
+        $(document).ready(function () {
+            $('#SelectButton').click(function () {
+                layer.open({
+                    type: 2,
+                    area: ['800px', '450px'],
+                    fix: false, //不固定
+                    maxmin: true,
+                    content: '/Common/StudentSelect'
+                });
+            });
+        })
+
+    </script>
 </body>
