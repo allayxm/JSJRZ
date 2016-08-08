@@ -334,7 +334,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
 
             Model.FloorList.Clear();
             Dormitory_ItemsEF vDormitoryInfo = vDormitory.GetDormitoryInfo(Model.DormitorySelected);
-            int vFloor = vDormitoryInfo.Storey.Value;
+            int vFloor = vDormitoryInfo.Storey==null?0:vDormitoryInfo.Storey.Value;
             for( int i=1;i<=vFloor;i++)
             {
                 SelectListItem vFloorItem = new SelectListItem()
@@ -410,7 +410,6 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 ModelState.AddModelError("", "房间分配失败");
                 return View(Model);
             }
-            return View(Model);
         }
         #endregion
 

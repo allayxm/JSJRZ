@@ -4,8 +4,16 @@
     ViewBag.Title = "增加学生安全教育记录";
     Layout = "~/Views/Shared/_LayoutSafe.cshtml";
 }
+
+@section CSS{
+    @Styles.Render("~/bundles/datepicker/css")
+}
+
 @section JS {
     @Scripts.Render("~/bundles/jqueryval")
+@*<script src="~/plugins/datepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/plugins/datepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>*@
+    @Scripts.Render("~/bundles/datepicker/js")
 
 }
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
@@ -72,4 +80,17 @@
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
     </div><!-- ./wrapper -->
+    <script>
+        $('#Time').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    </script>
 </body>

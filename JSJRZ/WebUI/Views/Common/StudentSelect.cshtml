@@ -32,9 +32,9 @@
                             <div class="box box-primary">
                                 <div class="box-header with-border text-left" >
                                     <h3 class="box-title">
-                                            年级:@Html.DropDownListFor(m => m.GradeSelected, Model.GradeList, new { @class = "form-group", @Style = "width:100px" })
-                                            班级:<select Style="width:100px" class="form-group" id="ClassSelected" name="ClassSelected"><option value="0">全部班级</option></select>
-                                            学生姓名:@Html.TextBoxFor(m => m.StudentName, new { @class = "form-group" })
+                                            年级:@Html.DropDownListFor(m => m.GradeSelected, Model.GradeList, new { @class = "form-group", @Style = "width:150px" })
+                                            班级:<select Style="width:150px" class="form-group" id="ClassSelected" name="ClassSelected"><option value="0">全部班级</option></select>
+                                            学生姓名:@Html.TextBoxFor(m => m.StudentName, new { @class = "form-group" , @Style = "width:100px" })
                                             &nbsp&nbsp<button type="button" id="QueryButton"  class="btn btn-danger">查询</button>&nbsp&nbsp<button type="button" id="SaveButton" class="btn btn-danger">保存</button>
                                     </h3>
                                 </div><!-- /.box-header -->
@@ -76,6 +76,12 @@
     </div><!-- ./wrapper -->
     <script>
         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        var nameValue = parent.$("#StudentName").text().split(",");
+        var idValue = parent.$("#StudentID").val().split(",");
+        for (var i = 0, len = nameValue.length; i < len; i++)
+        {
+            $("<option></option>").val(idValue[i]).text(nameValue[i]).appendTo($("#StudenSelected_Right"));
+        }
 
         $("#Button_Right_All").click(function () {
 
@@ -114,7 +120,6 @@
         });
 
 
-
         $("#QueryButton").click(function () {
             var gradeSelectValue = $("#GradeSelected").val();
             var classSelectValue = $("#ClassSelected").val();
@@ -136,7 +141,6 @@
                 StudentValue += studentSelectText + ",";
                
             });
-
             parent.$('#StudentName').text(StudentValue);
             parent.$('#StudentID').val(hiddendValue);
             parent.layer.close(index);
@@ -155,7 +159,6 @@
 
         $("#GradeSelected").change(function () {
             var selectValue = $("#GradeSelected").val();
-
             $("#ClassSelected").empty();
             $("<option></option>").val(0).text("全部班级").appendTo($("#ClassSelected"))
 
@@ -167,7 +170,6 @@
             "/Common/QueryClassByGrade",
             { GradeID: pid },
             function (data) {
-                //$("<option></option>").val(0).text("全部年级").appendTo($(control));
                 $.each(data, function (i, item) {
                     $("<option></option>").val(item.ID).text(item.Name).appendTo($(control));
                 })

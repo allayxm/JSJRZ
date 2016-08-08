@@ -55,6 +55,18 @@ namespace MXKJ.JSJRZ.WebUI.App_Start
        ));
 
             #endregion
+
+            #region 日期控件
+            bundles.Add(new StyleBundle("~/bundles/datepicker/css").Include(
+         "~/plugins/datepicker/css/bootstrap-datetimepicker.min.css"
+         ));
+
+            bundles.Add(new ScriptBundle("~/bundles/datepicker/js").Include(
+       "~/plugins/datepicker/js/bootstrap-datetimepicker.min.js",
+        "~/plugins/datepicker/js/locales/bootstrap-datetimepicker.zh-CN.js"
+       ));
+
+            #endregion
         }
     }
 }

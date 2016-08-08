@@ -4,8 +4,12 @@
     ViewBag.Title = "编辑隐患整改记录";
     Layout = "~/Views/Shared/_LayoutSafe.cshtml";
 }
+@section CSS{
+    @Styles.Render("~/bundles/datepicker/css")
+}
 @section JS {
     @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/datepicker/js")
 
 }
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
@@ -72,4 +76,17 @@
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
     </div><!-- ./wrapper -->
+    <script>
+        $('#CheckTime').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    </script>
 </body>

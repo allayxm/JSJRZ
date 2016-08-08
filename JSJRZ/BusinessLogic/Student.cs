@@ -55,11 +55,11 @@ namespace MXKJ.BusinessLogic
             DataTable vTable = new DataTable();
             string vSql = "";
             if (GradeID == 0 && ClassID == 0)
-                vSql = "Select *From edu_students";
+                vSql = "Select *From edu_students where isnull(HouseID)";
             else if (GradeID != 0 && ClassID == 0)
-                vSql = string.Format("Select edu_students.* From edu_students left join edu_org on edu_org.id=edu_students.org_id where edu_org.level_type=4 and edu_org.parent_id='{0}'", GradeID);
+                vSql = string.Format("Select edu_students.* From edu_students left join edu_org on edu_org.id=edu_students.org_id where edu_org.level_type=4 and edu_org.parent_id='{0}' and isnull(edu_students.HouseID)", GradeID);
             else if (GradeID != 0 && ClassID != 0)
-                vSql = string.Format("Select * From edu_students Where org_id={0}", ClassID);
+                vSql = string.Format("Select * From edu_students Where org_id={0} and  isnull(HouseID)", ClassID);
             vTable = m_BasicDBClass.SelectCustom(vSql);
             DataRow[] vSelectRow = null;
             if (StudentName == "")

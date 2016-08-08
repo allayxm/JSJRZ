@@ -4,9 +4,12 @@
     ViewBag.Title = "编辑四防安全检查记录";
     Layout = "~/Views/Shared/_LayoutSafe.cshtml";
 }
+@section CSS{
+    @Styles.Render("~/bundles/datepicker/css")
+}
 @section JS {
     @Scripts.Render("~/bundles/jqueryval")
-
+    @Scripts.Render("~/bundles/datepicker/js")
 }
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
     <div class="wrapper">
@@ -72,4 +75,17 @@
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
     </div><!-- ./wrapper -->
+    <script>
+        $('#Time').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    </script>
 </body>
