@@ -1,9 +1,9 @@
-﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.SafetyCheckInfoViewModel
+﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.FireFightingInfoViewModel
 @using MXKJ.JSJRZ.WebUI.Models.SafeManager
 @using System.Web.Optimization
 @{
-    ViewBag.Title = "安全检查记录";
-    Layout = "~/Views/Shared/_LayoutSafe.cshtml";
+    ViewBag.Title = "操行记录";
+    Layout = "~/Views/Shared/_LayoutMoral.cshtml";
 }
 @section CSS{
     <!-- DataTables -->
@@ -20,7 +20,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    安全检查记录
+                    操行记录
                 </h1>
             </section>
 
@@ -33,7 +33,7 @@
                         <div class="box box-primary">
                             <div class="box-header with-border text-left">
                                 <h3 class="box-title">
-                                    @Html.ActionLink("新建", "AddSafetyCheck", "SafeManager", null, new { @class = "btn btn-danger", })&nbsp&nbsp
+                                    @Html.ActionLink("新建", "AddFireFighting", "SafeManager", null, new { @class = "btn btn-danger", })&nbsp&nbsp
                                     <button type="button" id="DelButton" class="btn  btn-default">删除</button>
                                 </h3>
 
@@ -50,25 +50,31 @@
                                                 <thead>
                                                     <tr>
                                                         <th style="display:none">ID</th>
-                                                        <th>检查时间</th>
-                                                        <th>检查部位</th>
-                                                        <th>检查情况</th>
-                                                        <th>检查人员</th>
+                                                        <th>器材位置</th>
+                                                        <th>填报时间</th>
+                                                        <th>购买时间</th>
+                                                        <th>灭火器数量</th>
+                                                        <th>消火栓个数</th>
+                                                        <th>管理人</th>
+                                                        <th>保养情况</th>
                                                         <th>备注</th>
                                                         <th style="width:50px">编辑</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach (SafetyCheckInfoItemViewModel vTempItem in Model.ItemList)
+                                                    @foreach (SafeFireFightingInfoItemViewModel vTempItem in Model.ItemList)
                                                     {
                                                         <tr class="even gradeA">
                                                             <td style="display:none">@vTempItem.ID</td>
-                                                            <td>@vTempItem.Time.ToString("yyyy年MM月dd日")</td>
-                                                            <td>@vTempItem.Position</td>
-                                                            <td>@vTempItem.Condition</td>
-                                                            <td>@vTempItem.Crew</td>
+                                                            <td>@vTempItem.Location</td>
+                                                            <td>@(vTempItem.InputTime == null ? "" : @vTempItem.InputTime.Value.ToString("yyyy年MM月dd日"))</td>
+                                                            <td>@(vTempItem.BuyTime == null ? "" : @vTempItem.BuyTime.Value.ToString("yyyy年MM月dd日"))</td>
+                                                            <td>@vTempItem.FireplugNum</td>
+                                                            <td>@vTempItem.ExtinguisherNum</td>
+                                                            <td>@vTempItem.Manager</td>
+                                                            <td>@vTempItem.MaintainState</td>
                                                             <td>@vTempItem.Memo</td>
-                                                            <td>@Html.ActionLink("编辑", "EditSafetyCheck", "SafeManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success" })</td>
+                                                            <td>@Html.ActionLink("编辑", "EditFireFighting", "SafeManager", new { ID = vTempItem.ID }, new { @class = "btn btn-block btn-success" })</td>
                                                         </tr>
                                                     }
                                             </table>
@@ -131,7 +137,7 @@
                         //table.rows(selectRows[i]).remove().draw(false);
                     }
                     $.getJSON(
-                           "/SafeManager/DeleteSafetyCheck",
+                           "/SafeManager/DeleteFireFighting",
                            { IDS: code },
                            function (result) {
                                if (result) {

@@ -153,6 +153,7 @@ namespace MXKJ.BusinessLogic
                     vHouseEF.ID = HouseID;
                     vHouseEF.StudentID = StudentsID;
                     vHouseEF.StudentName = StudentsName;
+                    vHouseEF.ResidueBed = BedNumber - vUsersArray.Length;
                     vResult = m_BasicDBClass.UpdateRecord(vHouseEF);
                 }
                 if (vResult)

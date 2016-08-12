@@ -1059,6 +1059,7 @@
     <Compile Include="Models\DormitoryManager\HouseInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
     <Compile Include="Models\DormitoryManager\StudentInfoViewModel.cs" />
+    <Compile Include="Models\Moral\MoralInfoViewModel.cs" />
     <Compile Include="Models\SafeManager\AddEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
     <Compile Include="Models\SafeManager\AddFireFightingViewModel.cs" />
@@ -1113,6 +1114,8 @@
     <Content Include="Views\SafeManager\EducationInfo.cshtml" />
     <Content Include="Views\SafeManager\AddEducation.cshtml" />
     <Content Include="Views\SafeManager\EditEducation.cshtml" />
+    <Content Include="Views\Shared\_LayoutMoral.cshtml" />
+    <Content Include="Views\Moral\MoralInfo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

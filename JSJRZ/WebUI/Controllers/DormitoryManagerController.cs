@@ -294,6 +294,21 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         #endregion
 
         #region 公用
+        List<SelectListItem> convertToDictListItem(Sys_CodeEF[] SysCodes)
+        {
+            List<SelectListItem> vList = new List<SelectListItem>();
+            foreach (Sys_CodeEF vTempvCode in SysCodes)
+            {
+                SelectListItem vNewItem = new SelectListItem()
+                {
+                    Text = vTempvCode.code_name,
+                    Value = vTempvCode.code_name
+                };
+                vList.Add(vNewItem);
+            }
+            return vList;
+        }
+
         List<SelectListItem> convertToDormitoryListItem(Dormitory_ItemsEF[] DormitoryItmes)
         {
             List<SelectListItem> vList = new List<SelectListItem>();
@@ -567,9 +582,12 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
 
         public ActionResult AddAdmin()
         {
+            
             AddAdminViewModel vModel = new AddAdminViewModel(); ;
             Dormitory vDormitory = new Dormitory();
             vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+            Dict vDict = new Dict();
+            vModel.DutyList = convertToDictListItem(vDict.DormitoryManagerDuty());
             return View(vModel);
         }
 
@@ -584,6 +602,10 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 return RedirectToAction("AdminInfo", "DormitoryManager");
             else
             {
+               
+                Model.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+                Dict vDict = new Dict();
+                Model.DutyList = convertToDictListItem(vDict.DormitoryManagerDuty());
                 ModelState.AddModelError("", "增加管理人失败");
                 return View(Model);
             }
@@ -596,7 +618,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             EditAdminViewModel vModel = new EditAdminViewModel()
             {
                 ID = ID,
-                Dormitory = vAdminData.Dormitory.Value,
+                Dormitory = vAdminData.Dormitory==null?0:vAdminData.Dormitory.Value,
                 Duty = vAdminData.Duty,
                 Floor = vAdminData.Floor,
                 Memo = vAdminData.Memo,
@@ -606,6 +628,8 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 WorkType = vAdminData.WorkType
             };
             vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+            Dict vDict = new Dict();
+            vModel.DutyList = convertToDictListItem(vDict.DormitoryManagerDuty());
             return View( vModel);
         }
 
@@ -620,6 +644,9 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 return RedirectToAction("AdminInfo", "DormitoryManager");
             else
             {
+                Model.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+                Dict vDict = new Dict();
+                Model.DutyList = convertToDictListItem(vDict.DormitoryManagerDuty());
                 ModelState.AddModelError("", "编辑管理人失败");
                 return View(Model);
             }

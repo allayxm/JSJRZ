@@ -76,11 +76,12 @@
     </div><!-- ./wrapper -->
     <script>
         var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-        var nameValue = parent.$("#StudentName").text().split(",");
-        var idValue = parent.$("#StudentID").val().split(",");
-        for (var i = 0, len = nameValue.length; i < len; i++)
-        {
-            $("<option></option>").val(idValue[i]).text(nameValue[i]).appendTo($("#StudenSelected_Right"));
+        if (parent.$("#StudentID").val() != "") {
+            var nameValue = parent.$("#StudentName").text().split(",");
+            var idValue = parent.$("#StudentID").val().split(",");
+            for (var i = 0, len = nameValue.length; i < len; i++) {
+                $("<option></option>").val(idValue[i]).text(nameValue[i]).appendTo($("#StudenSelected_Right"));
+            }
         }
 
         $("#Button_Right_All").click(function () {
