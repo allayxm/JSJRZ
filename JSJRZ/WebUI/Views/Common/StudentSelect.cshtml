@@ -15,13 +15,6 @@
     <div class="wrapper">
         <!-- Content Wrapper. Contains page content -->
         <div>
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <h1>
-                    学生选择
-                </h1>
-            </section>
-
             <!-- Main content -->@using (Html.BeginForm("StudentSelect", "Common", FormMethod.Post, new { role = "form" }))
             {
                 <section class="content">
@@ -34,7 +27,7 @@
                                     <h3 class="box-title">
                                             年级:@Html.DropDownListFor(m => m.GradeSelected, Model.GradeList, new { @class = "form-group", @Style = "width:150px" })
                                             班级:<select Style="width:150px" class="form-group" id="ClassSelected" name="ClassSelected"><option value="0">全部班级</option></select>
-                                            学生姓名:@Html.TextBoxFor(m => m.StudentName, new { @class = "form-group" , @Style = "width:100px" })
+                                            学生姓名:@Html.TextBox("StudentName", new { @class = "form-group" , @Style = "width:100px" })
                                             &nbsp&nbsp<button type="button" id="QueryButton"  class="btn btn-danger">查询</button>&nbsp&nbsp<button type="button" id="SaveButton" class="btn btn-danger">保存</button>
                                     </h3>
                                 </div><!-- /.box-header -->
@@ -149,7 +142,7 @@
 
         function QueryStudent(gradeSelectValue,classSelectValue,studentNameValue, control) {
             $.getJSON(
-            "/Common/QueryStudent",
+            "/Common/QueryStudentByHouseAllot",
             { GradeID: gradeSelectValue, ClassID: classSelectValue, StudentName: studentNameValue },
             function (data) {
                 $.each(data, function (i, item) {

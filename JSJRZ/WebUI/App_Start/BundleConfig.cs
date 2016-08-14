@@ -67,6 +67,17 @@ namespace MXKJ.JSJRZ.WebUI.App_Start
        ));
 
             #endregion
+
+            #region 日历控件
+            bundles.Add(new StyleBundle("~/bundles/fullcalendar/css").Include(
+         "~/plugins/fullcalendar/fullcalendar.min.css"
+         ));
+
+            bundles.Add(new ScriptBundle("~/bundles/fullcalendar/js").Include(
+        "~/plugins/fullcalendar/moment.min.js",
+        "~/plugins/fullcalendar/fullcalendar.min.js"
+        ));
+            #endregion
         }
     }
 }

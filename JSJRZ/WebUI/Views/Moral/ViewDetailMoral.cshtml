@@ -1,0 +1,31 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.Moral.ViewDetailMoralViewModel
+@{
+    ViewBag.Title = "操行详情";
+    Layout = "~/Views/Shared/_LayoutMoral.cshtml";
+}
+<div class="box box-widget widget-user-2">
+    <!-- Add the bg color to the header using any of the bg-* classes -->
+    @{
+        string str = "";
+        if (Model.Point >= 0)
+        {
+            str = "<div class=\"widget-user-header bg-green\">";
+        }
+        else
+        {
+            str = "<div class=\"widget-user-header bg-red\">";
+        }
+    }
+    @Html.Raw(str)
+    <h3 class="text-center">@Html.Raw(Model.Title)</h3>
+</div>
+<div class="box-footer no-padding text-justify">
+    <ul class="nav nav-stacked">
+        <li><a tyle="word-wrap: break-word;word-break: normal;">学生姓名:@Model.StudentsName</a></li>
+        <li><a tyle="word-wrap: break-word;word-break: normal;">操行名称:@Model.Moral</a></li>
+        <li><a tyle="word-wrap: break-word;word-break: normal;">分数:@Model.Point</a></li>
+        <li><a tyle="word-wrap: break-word;word-break: normal;">备注:@Model.Memo</a></li>
+    </ul>
+</div>
+
+        </div><!-- /.widget-user -->

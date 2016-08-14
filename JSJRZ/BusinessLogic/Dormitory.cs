@@ -36,10 +36,23 @@ namespace MXKJ.BusinessLogic
 
         public bool DeleteDormitory(string IDStr)
         {
+            bool vResult = false;
             if (IDStr.Length > 0)
                 IDStr = IDStr.Remove(IDStr.Length - 1);
             IDStr = IDStr.Replace('|', ',');
-            return m_BasicDBClass.DeleteRecordCustom<Dormitory_HouseEF>(string.Format("ID in ({0})", IDStr));
+            m_BasicDBClass.TransactionBegin();
+            vResult = m_BasicDBClass.DeleteRecordCustom<Dormitory_ItemsEF>(string.Format("ID in ({0})", IDStr));
+            if (vResult)
+            {
+                string vUpdateSql = string.Format("update  edu_students set HouseID=null where HouseID in ( Select ID from edu_dormitory_house where edu_dormitory_house.DormitoryID in ({0}))", IDStr);
+                m_BasicDBClass.UpdateRecord(vUpdateSql);
+                vResult = m_BasicDBClass.DeleteRecordCustom<Dormitory_HouseEF>( string.Format("DormitoryID in ({0})",IDStr));
+            }
+            if (vResult)
+                m_BasicDBClass.TransactionCommit();
+            else
+                m_BasicDBClass.TransactionRollback();
+            return vResult;
         }
         #endregion
 
@@ -94,10 +107,22 @@ namespace MXKJ.BusinessLogic
 
         public bool DeleteHouse(string IDStr)
         {
-            if (IDStr.Length > 0)
+            if (IDStr.Length>0 && IDStr[IDStr.Length-1] == '|')
                 IDStr = IDStr.Remove(IDStr.Length - 1);
             IDStr = IDStr.Replace('|', ',');
-            return m_BasicDBClass.DeleteRecordCustom<Dormitory_HouseEF>(string.Format("ID in ({0})", IDStr));
+            m_BasicDBClass.TransactionBegin();
+            bool vResult = m_BasicDBClass.DeleteRecordCustom<Dormitory_HouseEF>(string.Format("ID in ({0})", IDStr));
+            if (vResult)
+            {
+                string vUpdateSql = string.Format("Update edu_students set HouseID = NULL where HouseID in ({0})", IDStr);
+                m_BasicDBClass.UpdateRecord(vUpdateSql);
+                vResult = true;
+            }
+            if (vResult)
+                m_BasicDBClass.TransactionCommit();
+            else
+                m_BasicDBClass.TransactionRollback();
+            return vResult;
         }
 
         public bool CreateHouseByDormitory(int DormitoryID, string Unit, int Storey, int LyaerHouseNumber, int BedNumber, string Area)

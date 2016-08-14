@@ -35,10 +35,17 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             return View(Model);
         }
 
-        public JsonResult QueryStudent( int GradeID,int ClassID,string StudentName )
+        public JsonResult QueryStudentByHouseAllot( int GradeID,int ClassID,string StudentName )
         {
             Student vStudent = new Student();
-            StudentStruct[] vStudentData = vStudent.QueryStudent(GradeID, ClassID, HttpUtility.UrlDecode( StudentName));
+            StudentStruct[] vStudentData = vStudent.QueryStudent_HouseAllot(GradeID, ClassID, HttpUtility.UrlDecode( StudentName));
+            return Json(vStudentData, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult QueryStudent(int GradeID, int ClassID, string StudentName)
+        {
+            Student vStudent = new Student();
+            StudentStruct[] vStudentData = vStudent.QueryStudent(GradeID, ClassID, HttpUtility.UrlDecode(StudentName));
             return Json(vStudentData, JsonRequestBehavior.AllowGet);
         }
 

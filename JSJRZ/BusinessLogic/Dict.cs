@@ -21,5 +21,38 @@ namespace MXKJ.BusinessLogic
             };
             return m_BasicDBClass.SelectRecordsEx(vQueryData);
         }
+
+        #region 操行评定字典
+        public Sys_CodeEF[] MoralCode()
+        {
+            Sys_CodeEF vQueryData = new Sys_CodeEF()
+            {
+                type_id = "EDU_Moral"
+            };
+            return m_BasicDBClass.SelectRecordsEx(vQueryData);
+        }
+
+        public bool AddMoralCode( string Name,int Point )
+        {
+            Moral_CodeEF vData = new Moral_CodeEF()
+            {
+                Name = Name,
+                Point = Point
+            };
+            return m_BasicDBClass.InsertRecord(vData) >= 0 ? true : false;
+        }
+
+        public bool EditMoralCode ( int ID, string Name, int Point)
+        {
+            Moral_CodeEF vData = new Moral_CodeEF()
+            {
+                ID = ID,
+                Name = Name,
+                Point = Point
+            };
+            return m_BasicDBClass.UpdateRecord(vData);
+        }
+
+        #endregion
     }
 }

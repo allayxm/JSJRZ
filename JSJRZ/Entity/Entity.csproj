@@ -45,6 +45,9 @@
     <Compile Include="Dormitory_HouseViewEF.cs" />
     <Compile Include="Dormitory_ItemsEF.cs" />
     <Compile Include="Dormitory_Admin.cs" />
+    <Compile Include="Moral_CodeEF.cs" />
+    <Compile Include="Moral_RecordEF.cs" />
+    <Compile Include="Moral_RecordViewEF.cs" />
     <Compile Include="Safe_EducationEF.cs" />
     <Compile Include="Safe_FireFightingEF.cs" />
     <Compile Include="Safe_SafetyCheckEF.cs" />

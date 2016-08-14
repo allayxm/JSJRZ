@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JsonStruct.cs" />
     <Compile Include="Regular.cs" />
     <Compile Include="ReturnResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

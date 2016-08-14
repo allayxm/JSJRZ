@@ -256,7 +256,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         public JsonResult DeleteHouse( string IDS)
         {
             Dormitory vDormitory = new Dormitory();
-            bool vResult = vDormitory.DeleteDormitory(IDS);
+            bool vResult = vDormitory.DeleteHouse(IDS);
             return Json(vResult, JsonRequestBehavior.AllowGet);
         }
 

@@ -699,6 +699,7 @@
     <Content Include="plugins\fullcalendar\fullcalendar.min.css" />
     <Content Include="plugins\fullcalendar\fullcalendar.min.js" />
     <Content Include="plugins\fullcalendar\fullcalendar.print.css" />
+    <Content Include="plugins\fullcalendar\moment.min.js" />
     <Content Include="plugins\iCheck\all.css" />
     <Content Include="plugins\iCheck\flat\aero%402x.png" />
     <Content Include="plugins\iCheck\flat\aero.css" />
@@ -1040,6 +1041,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\DormitoryManagerController.cs" />
+    <Compile Include="Controllers\MoralController.cs" />
     <Compile Include="Controllers\SafeManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1059,7 +1061,10 @@
     <Compile Include="Models\DormitoryManager\HouseInfoViewModel.cs" />
     <Compile Include="Models\DormitoryManager\HouseAllotViewModel.cs" />
     <Compile Include="Models\DormitoryManager\StudentInfoViewModel.cs" />
-    <Compile Include="Models\Moral\MoralInfoViewModel.cs" />
+    <Compile Include="Models\Moral\AddMoralViewModel.cs" />
+    <Compile Include="Models\Moral\EditMoralViewModel.cs" />
+    <Compile Include="Models\Moral\MoralManageViewModel.cs" />
+    <Compile Include="Models\Moral\ViewDetailMoralViewModel.cs" />
     <Compile Include="Models\SafeManager\AddEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
     <Compile Include="Models\SafeManager\AddFireFightingViewModel.cs" />
@@ -1115,7 +1120,11 @@
     <Content Include="Views\SafeManager\AddEducation.cshtml" />
     <Content Include="Views\SafeManager\EditEducation.cshtml" />
     <Content Include="Views\Shared\_LayoutMoral.cshtml" />
-    <Content Include="Views\Moral\MoralInfo.cshtml" />
+    <Content Include="Views\Moral\MoralManage.cshtml" />
+    <Content Include="Views\Moral\EditMoral.cshtml" />
+    <Content Include="Views\Moral\AddMoral.cshtml" />
+    <Content Include="Views\Moral\ViewMoral.cshtml" />
+    <Content Include="Views\Moral\ViewDetailMoral.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,262 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.Moral.AddMoralViewModel
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "增加操行记录";
+    Layout = "~/Views/Shared/_LayoutMoral.cshtml";
+}
+
+<body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <section class="content">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-lg-12">
+                        <!-- general form elements -->
+                        <div class="box box-primary">
+                            <div class="box-header with-border text-left">
+                                <h3 class="box-title">
+                                    @Html.Hidden("MoralID", Model.ID)
+                                    @Html.Hidden("GradeID", Model.GradeSelected)
+                                    @Html.Hidden("ClassID", Model.ClassSelected)
+                                    @Html.HiddenFor(m => m.Date)
+                                    年级:@Html.DropDownListFor(m => m.GradeSelected, Model.GradeList, "请选择年级", new { @class = "form -group", @Style = "width:120px" })
+                                    班级:@Html.DropDownListFor(m => m.ClassSelected, Model.ClassList, "请选择班级", new { @class = "form-group", @Style = "width:120px" })
+                                    @*班级:<select Style="width:150px" class="form-group" id="ClassSelected" name="ClassSelected"><option value="0">全部班级</option></select>*@
+                                    学生姓名:@Html.TextBox("StudentName", "", new { @class = "form-group", @Style = "width:100px" })
+                                    &nbsp&nbsp<button type="button" id="QueryButton" class="btn btn-danger">查询</button>
+                                    &nbsp&nbsp<button type="button" id="SaveButton" class="btn btn-danger">保存</button>
+                                </h3>
+                            </div><!-- /.box-header -->
+                            <!-- form start -->
+                            <div class="row">
+                                <div class="col-sm-5">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            @Html.DropDownListFor(m => m.StudenSelected_Left, Model.StudenSelected_Left_List, new { @class = "form-control", multiple = "multiple", style = "height:200px" })
+                                            @*<select class="form-control" id="StudenSelected_Left" multiple="multiple" style="height:200px"></select>*@
+                                        </div><!-- /.box-body -->
+                                    </div><!-- /.box -->
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <div class="box">
+                                        <div class="box-body text-center" style="height:200px">
+                                            <p><button type="button" id="Button_Right" style="width:50px" class="btn btn-default">></button></p>
+                                            <p><button type="button" id="Button_Right_All" style="width:50px" class="btn btn-default">>></button></p>
+                                            <p><button type="button" id="Button_Left" style="width:50px" class="btn btn-default"><</button></p>
+                                            <p><button type="button" id="Button_Left_All" style="width:50px" class="btn btn-default"><<</button></p>
+                                        </div><!-- /.box-body -->
+                                    </div><!-- /.box -->
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <div class="box">
+                                        <div class="box-body">
+                                            @Html.DropDownListFor(m => m.StudenSelected_Right, Model.StudenSelected_Right_List, new { @class = "form-control", multiple = "multiple", style = "height:200px" })
+                                            @*<select class="form-control" id="StudenSelected_Right" multiple="multiple" style="height:200px"></select>*@
+                                        </div><!-- /.box-body -->
+                                    </div><!-- /.box -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="box-body">
+                                        <div class="row">
+                                            <div class="col-sm-1" style="padding-right:1px">
+                                                <label>操行:<a style="color:red">*</a></label>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                @Html.DropDownListFor(m => m.TypeName, Model.TypeList, "请选择操行", new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-sm-3">
+                                                @Html.TextBoxFor(m => m.Point, new { @class = "form-control", style = "width:50px", placeholder = "请输入分数" })
+                                            </div>
+                                            <div class="col-sm-5">
+                                            </div>
+                                        </div>
+                                    </div><!-- /.box-body -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box-body">
+                                        <div class="form-group">
+                                            <label class="control-label">备注:</label>
+                                            @Html.TextAreaFor(m => m.Memo, new { @class = "form-control", placeholder = "请输入备注" })
+                                        </div>
+                                    </div><!--/.col (left) -->
+                                </div>   <!-- /.row -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+    <script>
+        var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        //if ($("#StudentID").val() != "") {
+        //    var nameValue = $("#StudentsName").text().split(",");
+        //    var idValue = $("#StudentsID").val().split(",");
+        //    for (var i = 0, len = nameValue.length; i < len; i++) {
+        //        $("<option></option>").val(idValue[i]).text(nameValue[i]).appendTo($("#StudenSelected_Right"));
+        //    }
+        //}
+
+        $("#Button_Right_All").click(function () {
+
+            $("#StudenSelected_Left option").each(function () {
+                var studentSelectValue = $(this).val();
+                var studentSelectText = $(this).text();
+                $(this).remove();
+                $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Right"));
+            });
+        });
+
+        $("#Button_Left_All").click(function () {
+
+            $("#StudenSelected_Right option").each(function () {
+                var studentSelectValue = $(this).val();
+                var studentSelectText = $(this).text();
+                $(this).remove();
+                $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Left"));
+            });
+        });
+
+        $("#Button_Right").click(function () {
+            var studentSelectValue = $("#StudenSelected_Left").val();
+            var studentSelectText = $("#StudenSelected_Left").find("option:selected").text();
+            $("#StudenSelected_Left").find("option:selected").remove();
+
+            $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Right"));
+        });
+
+        $("#Button_Left").click(function () {
+            var studentSelectValue = $("#StudenSelected_Right").val();
+            var studentSelectText = $("#StudenSelected_Right").find("option:selected").text();
+            $("#StudenSelected_Right").find("option:selected").remove();
+            $("<option></option>").val(studentSelectValue).text(studentSelectText).appendTo($("#StudenSelected_Left"));
+        });
+
+        $("#QueryButton").click(function () {
+            if (gradeSelectValue == 0 | classSelectValue == 0) {
+                alert("请选择年级和班级");
+                return;
+            }
+            var oldGradeID = $("#GradeID").val();
+            var oldClassID = $("#ClassID").val();
+            var gradeSelectValue = $("#GradeSelected").val();
+            var classSelectValue = $("#ClassSelected").val();
+            if (oldGradeID != "" && oldClassID != "")
+            {
+                if ( oldGradeID != gradeSelectValue || oldClassID != classSelectValue )
+                {
+                    if ( confirm("切换班级将会清空已选择的学生，是否继续？") )
+                    {
+                        $("#StudenSelected_Left").empty();
+                        $("#StudenSelected_Right").empty();
+                    }
+                    else
+                        return;
+                }
+            }
+            else
+            {
+                $("#GradeID").val(gradeSelectValue);
+                $("#ClassID").val(classSelectValue);
+            }
+
+            var studentNameValue = $("#StudentName").val();
+            studentNameValue = encodeURI(studentNameValue);
+            
+
+            QueryStudent(gradeSelectValue, classSelectValue, studentNameValue, "#StudenSelected_Left");
+        });
+
+        $("#SaveButton").click(function () {
+
+            var id,classID, date, studentsID="", studentsName="", typeName, point,memo;
+
+            $("#StudenSelected_Right option").each(function () {
+                var studentSelectValue = $(this).val();
+                var studentSelectText = $(this).text();
+                if (studentsName == "" && studentsID == "") {
+                    studentsID += studentSelectValue;
+                    studentsName += studentSelectText;
+                }
+                else
+                {
+                    studentsID +=  ","+studentSelectValue;
+                    studentsName += ","+studentSelectText;
+                }
+            });
+
+            if (studentsID == "" && studentsName == "") {
+                alert("请选择评定的学生");
+                return;
+            }
+            //id = $("#MoralID").val();
+            classID = $("#ClassSelected").val();
+            className = $("#GradeSelected").find("option:selected").text() + $("#ClassSelected").find("option:selected").text();
+            date = $("#Date").val();
+            typeName = $("#TypeName").find("option:selected").text();
+            if (typeName == "请选择操行")
+            {
+                alert("请选择操行类别")
+                return;
+            }
+            point = $("#Point").val();
+            memo = $("#Memo").val();
+            $.post(
+           "/Moral/AddMoral",
+           { ClassID: classID,ClassName:className, Date: date, StudentsID: studentsID, StudentsName: studentsName, TypeName: typeName, Point: point,Memo:memo },
+           function (data) {
+               if (data.id!=0) {
+                   //alert("ok");
+                   //parent.$('#calendar').fullCalendar('updateEvent', data);
+                   parent.$('#calendar').fullCalendar('renderEvent', data, true);
+                   //parent.$('#calendar').fullCalendar('refetchEvents');
+                   parent.layer.close(index);
+               }
+           });
+        });
+
+        function QueryStudent(gradeSelectValue, classSelectValue, studentNameValue, control) {
+            $.getJSON(
+            "/Common/QueryStudent",
+            { GradeID: gradeSelectValue, ClassID: classSelectValue, StudentName: studentNameValue },
+            function (data) {
+                $.each(data, function (i, item) {
+                    $("<option></option>").val(item.ID).text(item.Name).appendTo($(control));
+                })
+            });
+        }
+
+        $("#TypeName").change(function () {
+            var selectValue = $("#TypeName").val();
+            $("#Point").val(selectValue);
+        });
+
+
+        $("#GradeSelected").change(function () {
+            var selectValue = $("#GradeSelected").val();
+            $("#ClassSelected").empty();
+            //$("<option></option>").val(0).text("全部班级").appendTo($("#ClassSelected"))
+
+            GetClass(selectValue, "#ClassSelected");
+        });
+
+        function GetClass(pid, control) {
+            $.getJSON(
+            "/Common/QueryClassByGrade",
+            { GradeID: pid },
+            function (data) {
+                $.each(data, function (i, item) {
+                    $("<option></option>").val(item.ID).text(item.Name).appendTo($(control));
+                })
+            });
+        }
+    </script>
+</body>
