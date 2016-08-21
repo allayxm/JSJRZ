@@ -329,6 +329,67 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         }
         #endregion
 
+        #region 操行统计
+        public ActionResult StatisticsMoral()
+        {
+            Moral vMoral = new Moral();
+            StatisticsMoralViewModel vModel = new StatisticsMoralViewModel();
+            Student vStudent = new Student();
+            OrgStruct[] vGradeData = vStudent.GetAllGrade();
+            foreach (OrgStruct vTempGrade in vGradeData)
+            {
+                SelectListItem vNewItem = new SelectListItem()
+                {
+                    Text = vTempGrade.Name,
+                    Value = vTempGrade.ID.ToString(),
+                };
+                vModel.GradeList.Add(vNewItem);
+            }
+
+            vModel.StartDate = DateTime.Today.AddDays(-7);
+            vModel.EndDate = DateTime.Today;
+            vModel.StatisticsTable = vMoral.Statistics(0, 0, vModel.StartDate, vModel.EndDate);
+            vModel.StatisticsTable.PrimaryKey = new System.Data.DataColumn[] { };
+            vModel.StatisticsTable.Columns.Remove("班级编号");
+            vModel.StatisticsTable.AcceptChanges();
+            return View(vModel);
+        }
+
+        [HttpPost]
+        public ActionResult StatisticsMoral(StatisticsMoralViewModel Model)
+        {
+            Moral vMoral = new Moral();
+            Student vStudent = new Student();
+            OrgStruct[] vGradeData = vStudent.GetAllGrade();
+            foreach (OrgStruct vTempGrade in vGradeData)
+            {
+                SelectListItem vNewItem = new SelectListItem()
+                {
+                    Text = vTempGrade.Name,
+                    Value = vTempGrade.ID.ToString(),
+                };
+                Model.GradeList.Add(vNewItem);
+            }
+
+            OrgStruct[] vClassData = vStudent.QueryClassByGrade(Model.GradeSelected);
+            foreach (OrgStruct vTempClass in vClassData)
+            {
+                SelectListItem vNewItem = new SelectListItem()
+                {
+                    Text = vTempClass.Name,
+                    Value = vTempClass.ID.ToString(),
+                };
+                Model.ClassList.Add(vNewItem);
+            }
+
+            Model.StatisticsTable = vMoral.Statistics(Model.GradeSelected,Model.ClassSelected, Model.StartDate, Model.EndDate);
+            Model.StatisticsTable.PrimaryKey = new System.Data.DataColumn[] { };
+            Model.StatisticsTable.Columns.Remove("班级编号");
+            Model.StatisticsTable.AcceptChanges();
+            return View(Model);
+        }
+        #endregion
+
 
 
     }

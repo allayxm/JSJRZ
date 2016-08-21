@@ -1,0 +1,184 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.Moral.StatisticsMoralViewModel
+@using System.Data
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "操行统计";
+    Layout = "~/Views/Shared/_LayoutDormitoryManager.cshtml";
+
+}
+@section CSS{
+    <!-- DataTables -->
+    @Styles.Render("~/bundles/DataTable/css")
+    @Styles.Render("~/bundles/datepicker/css")
+}
+@section JS{
+    <!-- DataTables -->
+    @Scripts.Render("~/bundles/DataTable/js")
+    @Scripts.Render("~/bundles/datepicker/js")
+}
+<body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    操行统计
+                </h1>
+            </section>
+            <!-- Main content -->@using (Html.BeginForm("StatisticsMoral", "Moral", FormMethod.Post, new { role = "form" }))
+            {
+                <section class="content">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <div class="box-header with-border  ">
+
+                                    <div class="form-group text-left form-horizontal">
+                                        <!-- left column -->
+                                        <label class="col-sm-1 ">年级:</label> @Html.DropDownListFor(m => m.GradeSelected, Model.GradeList, "所有年级", new { @class = "form-control col-sm-2", @Style = "width:130px" })
+                                        <label class="col-sm-1 ">班级:</label> @Html.DropDownListFor(m => m.ClassSelected, Model.ClassList, "所有班级", new { @class = "form-control col-sm-2", @Style = "width:130px" })
+                                        <label class="col-sm-1 ">时间段:</label>@Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control col-sm-2", @Style = "width:100px", placeholder = "开始时间" })
+                                        @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", new { @class = "form-control col-sm-2", @Style = "width:100px", placeholder = "结束时间" })
+                                        <button type="submit" id="QueryButton" class="btn btn-danger col-sm-1 text-right">查询</button>
+                                    </div>
+
+                                </div><!-- /.box-header -->
+                                <!-- form start -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box">
+                                            <div class="box-header">
+                                                <h3 class="box-title"></h3>
+                                            </div><!-- /.box-header -->
+                                            <div class="box-body">
+                                                <table id="usersTable" class="table table-bordered table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            @foreach (DataColumn vTempColumn in Model.StatisticsTable.Columns)
+                                                            {
+                                                                <th>@vTempColumn.ColumnName</th>
+                                                            }
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (DataRow vTempRow in Model.StatisticsTable.Rows)
+                                                        {
+                                                            <tr class="even gradeA">
+                                                                @for (int i = 0; i < Model.StatisticsTable.Columns.Count; i++)
+                                                                {
+                                                                    if (Model.StatisticsTable.Columns[i].ColumnName != "班级编号" && Model.StatisticsTable.Columns[i].ColumnName != "班级名称" && vTempRow[i] != DBNull.Value)
+                                                                    {
+                                                                        if ((int)vTempRow[i] > 0)
+                                                                        {
+                                                                            <td style="color:green">@vTempRow[i]</td>
+                                                                        }
+                                                                        else if ((int)vTempRow[i] < 0)
+                                                                        {
+                                                                            <td style="color:red">@vTempRow[i]</td>
+                                                                        }
+                                                                        else if ((int)vTempRow[i] == 0)
+                                                                        {
+                                                                            <td>@vTempRow[i]</td>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <td>@vTempRow[i]</td>
+                                                                    }
+                                                                }
+                                                            </tr>
+                                                        }
+                                                </table>
+                                            </div><!-- /.box-body -->
+                                        </div><!-- /.box -->
+                                    </div>
+                                </div>
+                            </div><!-- /.box -->
+                        </div><!--/.col (left) -->
+                    </div>   <!-- /.row -->
+                </section><!-- /.content -->
+            }
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+    <script>
+        var table;
+        $(document).ready(function () {
+            $(function () {
+                table = $('#usersTable').DataTable({
+                    responsive: true,
+                    Retrieve: true,
+                    'language': {
+                        'search': '搜索:',
+                        'zeroRecords': "没有记录",
+                        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                        'lengthMenu': '显示 _MENU_ 条记录',
+                        "order": [[3, "desc"]],
+                        paginate: {
+                            previous: '‹',
+                            next: '›'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: '上一页',
+                                next: '下一页'
+                            }
+                        }
+                    }
+                });
+
+                $(".select2").select2();
+            });
+
+            $('#usersTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+        })
+
+        $("#GradeSelected").change(function () {
+            var selectValue = $("#GradeSelected").val();
+            $("#ClassSelected").empty();
+            $("<option></option>").val(0).text("全部班级").appendTo($("#ClassSelected"))
+
+            GetClass(selectValue, "#ClassSelected");
+        });
+
+        function GetClass(pid, control) {
+            $.getJSON(
+            "/Common/QueryClassByGrade",
+            { GradeID: pid },
+            function (data) {
+                $.each(data, function (i, item) {
+                    $("<option></option>").val(item.ID).text(item.Name).appendTo($(control));
+                })
+            });
+        }
+
+        $('#StartDate').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+
+        $('#EndDate').datetimepicker({
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+            weekStart: 1,
+            todayBtn: 1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+    </script>
+</body>

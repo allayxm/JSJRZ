@@ -1064,6 +1064,7 @@
     <Compile Include="Models\Moral\AddMoralViewModel.cs" />
     <Compile Include="Models\Moral\EditMoralViewModel.cs" />
     <Compile Include="Models\Moral\MoralManageViewModel.cs" />
+    <Compile Include="Models\Moral\StatisticsMoralViewModel.cs" />
     <Compile Include="Models\Moral\ViewDetailMoralViewModel.cs" />
     <Compile Include="Models\SafeManager\AddEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
@@ -1125,6 +1126,7 @@
     <Content Include="Views\Moral\AddMoral.cshtml" />
     <Content Include="Views\Moral\ViewMoral.cshtml" />
     <Content Include="Views\Moral\ViewDetailMoral.cshtml" />
+    <Content Include="Views\Moral\StatisticsMoral.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

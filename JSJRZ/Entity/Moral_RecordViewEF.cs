@@ -12,6 +12,8 @@ namespace MXKJ.Entity
     {
         [ColumnAttrib("ID")]
         public int? ID { get; set; }
+        [ColumnAttrib("GradeID")]
+        public int? GradeID { get; set; }
         [ColumnAttrib("ClassID")]
         public int? ClassID { get; set; }
         [ColumnAttrib("Date")]
