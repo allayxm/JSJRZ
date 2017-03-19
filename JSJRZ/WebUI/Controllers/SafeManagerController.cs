@@ -13,6 +13,29 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
     {
 
         #region 隐患整改
+
+        public ActionResult HiddenDangerView()
+        {
+            HiddenDangerInfoViewModel vModel = new HiddenDangerInfoViewModel();
+            Safe vSafe = new Safe();
+            Safe_HiddenDangerEF[] vData = vSafe.GetAllHiddenDangerData();
+            foreach (Safe_HiddenDangerEF vTempData in vData)
+            {
+                HiddenDangerInfoItemViewModel vNewItem = new HiddenDangerInfoItemViewModel()
+                {
+                    ID = vTempData.ID.Value,
+                    Address = vTempData.Address,
+                    CheckTime = vTempData.CheckTime.Value,
+                    Organizer = vTempData.Organizer,
+                    Participant = vTempData.Participant,
+                    RectificationMeasures = vTempData.RectificationMeasures
+                };
+                vModel.ItemList.Add(vNewItem);
+            }
+            return View(vModel);
+        }
+
+
         public ActionResult HiddenDangerInfo()
         {
             HiddenDangerInfoViewModel vModel = new HiddenDangerInfoViewModel();
@@ -97,6 +120,27 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         #endregion
 
         #region 四防安全检查
+        public ActionResult SafetyCheckView()
+        {
+            SafetyCheckInfoViewModel vModel = new SafetyCheckInfoViewModel();
+            Safe vSafe = new Safe();
+            Safe_SafetyCheckEF[] vData = vSafe.GetAllSafetyCheckData();
+            foreach (Safe_SafetyCheckEF vTempData in vData)
+            {
+                SafetyCheckInfoItemViewModel vNewItem = new SafetyCheckInfoItemViewModel()
+                {
+                    ID = vTempData.ID.Value,
+                    Condition = vTempData.CheckCondition,
+                    Crew = vTempData.Crew,
+                    Memo = vTempData.Memo,
+                    Position = vTempData.CheckPosition,
+                    Time = vTempData.Time.Value
+                };
+                vModel.ItemList.Add(vNewItem);
+            }
+            return View(vModel);
+        }
+
         public ActionResult SafetyCheckInfo()
         {
             SafetyCheckInfoViewModel vModel = new SafetyCheckInfoViewModel();
@@ -179,6 +223,30 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         #endregion
 
         #region 消防器材登记
+
+        public ActionResult FireFightingView()
+        {
+            FireFightingInfoViewModel vModel = new FireFightingInfoViewModel();
+            Safe vSafe = new Safe();
+            Safe_FireFightingEF[] vData = vSafe.GetAllFireFightingData();
+            foreach (Safe_FireFightingEF vTempData in vData)
+            {
+                SafeFireFightingInfoItemViewModel vNewItem = new SafeFireFightingInfoItemViewModel()
+                {
+                    ID = vTempData.ID,
+                    BuyTime = vTempData.BuyTime,
+                    ExtinguisherNum = vTempData.ExtinguisherNum,
+                    FireplugNum = vTempData.FireplugNum,
+                    Location = vTempData.Location,
+                    MaintainState = vTempData.MaintainState,
+                    Manager = vTempData.Manager,
+                    Memo = vTempData.Memo
+                };
+                vModel.ItemList.Add(vNewItem);
+            }
+            return View(vModel);
+        }
+
         public ActionResult FireFightingInfo()
         {
             FireFightingInfoViewModel vModel = new FireFightingInfoViewModel();
@@ -266,6 +334,27 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         #endregion
 
         #region 学生安全教育
+        public ActionResult EducationView()
+        {
+            EducationInfoViewModel vModel = new EducationInfoViewModel();
+            Safe vSafe = new Safe();
+            Edu_Safe_Education[] vData = vSafe.GetAllEducationData();
+            foreach (Edu_Safe_Education vTempData in vData)
+            {
+                EducationInfoItemViewModel vNewItem = new EducationInfoItemViewModel()
+                {
+                    ID = vTempData.ID.Value,
+                    Describe = vTempData.Describe,
+                    Organizer = vTempData.Organizer,
+                    Student = vTempData.Student,
+                    Theme = vTempData.Theme,
+                    Time = vTempData.Time.Value
+                };
+                vModel.ItemList.Add(vNewItem);
+            }
+            return View(vModel);
+        }
+
         public ActionResult EducationInfo()
         {
             EducationInfoViewModel vModel = new EducationInfoViewModel();

@@ -1,0 +1,116 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.SafeManager.HiddenDangerInfoViewModel
+@using MXKJ.JSJRZ.WebUI.Models.SafeManager
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "隐患整改记录查看";
+    Layout = "~/Views/Shared/_LayoutSafe.cshtml";
+}
+@section CSS{
+    <!-- DataTables -->
+    @Styles.Render("~/bundles/DataTable/css")
+}
+@section JS{
+    <!-- DataTables -->
+    @Scripts.Render("~/bundles/DataTable/js")
+}
+<body class="hold-transition sidebar-mini" style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    隐患整改记录查看
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-md-12">
+                        <!-- general form elements -->
+                        <div class="box box-primary">
+                            <div class="box-header with-border text-left">
+                                <h3 class="box-title">
+                                </h3>
+
+                            </div><!-- /.box-header -->
+                            <!-- form start -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="box">
+                                        <div class="box-header">
+                                            <h3 class="box-title"></h3>
+                                        </div><!-- /.box-header -->
+                                        <div class="box-body">
+                                            <table id="usersTable" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="display:none">ID</th>
+                                                        <th>组织者</th>
+                                                        <th>检查时间</th>
+                                                        <th>参加人员</th>
+                                                        <th>整改内容</th>
+                                                        <th>地点</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (HiddenDangerInfoItemViewModel vTempItem in Model.ItemList)
+                                                    {
+                                                        <tr class="even gradeA">
+                                                            <td style="display:none">@vTempItem.ID</td>
+                                                            <td>@vTempItem.Organizer</td>
+                                                            <td>@vTempItem.CheckTime.ToString("yyyy年MM月dd日")</td>
+                                                            <td>@vTempItem.Participant</td>
+                                                            <td>@vTempItem.RectificationMeasures</td>
+                                                            <td>@vTempItem.Address</td>
+                                                        </tr>
+                                                    }
+                                            </table>
+                                        </div><!-- /.box-body -->
+                                    </div><!-- /.box -->
+                                </div>
+                            </div>
+                        </div><!-- /.box -->
+                    </div><!--/.col (left) -->
+                </div>   <!-- /.row -->
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+    <script>
+        var table;
+        $(document).ready(function () {
+            $(function () {
+                table = $('#usersTable').DataTable({
+                    responsive: true,
+                    Retrieve: true,
+                    'language': {
+                        'search': '搜索:',
+                        'zeroRecords': "没有记录",
+                        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                        'lengthMenu': '显示 _MENU_ 条记录',
+                        paginate: {
+                            previous: '‹',
+                            next: '›'
+                        },
+                        aria: {
+                            paginate: {
+                                previous: '上一页',
+                                next: '下一页'
+                            }
+                        }
+                    }
+                });
+            });
+
+            $('#usersTable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+           
+        })
+
+    </script>
+</body>
+

@@ -201,8 +201,10 @@
             });
 
             if (studentsID == "" && studentsName == "") {
-                alert("请选择评定的学生");
-                return;
+                studentsID = -1;
+                studentsName = "全体";
+                //alert("请选择评定的学生");
+                //return;
             }
             id = $("#MoralID").val();
             classID = $("#ClassSelected").val();

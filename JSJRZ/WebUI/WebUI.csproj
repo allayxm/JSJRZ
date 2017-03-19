@@ -1127,6 +1127,10 @@
     <Content Include="Views\Moral\ViewMoral.cshtml" />
     <Content Include="Views\Moral\ViewDetailMoral.cshtml" />
     <Content Include="Views\Moral\StatisticsMoral.cshtml" />
+    <Content Include="Views\SafeManager\HiddenDangerView.cshtml" />
+    <Content Include="Views\SafeManager\SafetyCheckView.cshtml" />
+    <Content Include="Views\SafeManager\FireFightingView.cshtml" />
+    <Content Include="Views\SafeManager\EducationView.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
