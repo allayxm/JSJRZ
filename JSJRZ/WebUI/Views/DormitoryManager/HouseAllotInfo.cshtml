@@ -12,6 +12,7 @@
 }
 @section JS{
     <!-- DataTables -->
+    <script src="~/plugins/layer/layer.js"></script>
     @Scripts.Render("~/bundles/DataTable/js")
     @Scripts.Render("~/bundles/select2/js")
 
@@ -41,9 +42,8 @@
                                         公寓楼:@Html.DropDownListFor(m => m.DormitorySelected, (List<SelectListItem>)Model.DormitoryList, "所有公寓楼", new {  @class = "form-control select2", @Style = "width:200px" })
                                         楼层:@Html.DropDownListFor(m => m.FloorSelected, (List<SelectListItem>)Model.FloorList, "所有楼层", new { @class = "form-control select2", @Style = "width:150px" })
                                         &nbsp&nbsp<button type="submit" id="DelButton" class="btn btn-danger">查询</button>
+                                        &nbsp&nbsp<button type="button" id="UploadButton" class="btn btn-danger">上传</button>
                                     </h3>
-
-
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
                                 <div class="row">
@@ -138,6 +138,19 @@
             $("<option></option>").val("").text("---请选择---").appendTo($("#FloorSelected"))
           
             GetCounty(selectValue, "#FloorSelected");
+        });
+
+        $("#UploadButton").click(function () {
+            layer.open({
+                title: '上传宿舍分配信息',
+                type: 2,
+                area: ['600px', '300px'],
+                fix: false, //不固定
+                maxmin: false,
+                scrollbar: false,
+                content: '/DormitoryManager/UploadHouseAllot/'
+                //content: '/Moral/AddMoral/asdf'
+            });
         });
 
         function GetCounty(pid, control) {

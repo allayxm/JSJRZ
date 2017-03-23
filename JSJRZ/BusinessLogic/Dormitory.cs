@@ -141,7 +141,7 @@ namespace MXKJ.BusinessLogic
                         ResidueBed = BedNumber,
                         Floor = i,
                         IsUse = true,
-                        Number = string.Format("{0}{1}-{2}", Unit, i, j)
+                        Number = string.Format("{0}{1:D2}", i, j)
                     };
                     if (m_BasicDBClass.InsertRecord(vHouseData) > 0)
                         vResult = true;

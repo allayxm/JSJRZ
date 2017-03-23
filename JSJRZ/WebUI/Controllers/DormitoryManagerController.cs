@@ -5,7 +5,7 @@ using MXKJ.Entity;
 using MXKJ.Common;
 using System.Collections.Generic;
 using System.Web.ModelBinding;
-
+using System.Web;
 
 namespace MXKJ.JSJRZ.WebUI.Controllers
 {
@@ -650,6 +650,25 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 ModelState.AddModelError("", "编辑管理人失败");
                 return View(Model);
             }
+        }
+
+        #endregion
+
+        #region 宿舍分配数据上传
+        public ActionResult UploadHouseAllot()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult UploadHouseAllot(HttpPostedFileBase[] fileToUpload)
+        {
+            foreach (HttpPostedFileBase file in fileToUpload)
+            {
+                string path = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
+                file.SaveAs(path);
+            }
+            return View();
         }
 
         #endregion

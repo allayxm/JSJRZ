@@ -1131,6 +1131,7 @@
     <Content Include="Views\SafeManager\SafetyCheckView.cshtml" />
     <Content Include="Views\SafeManager\FireFightingView.cshtml" />
     <Content Include="Views\SafeManager\EducationView.cshtml" />
+    <Content Include="Views\DormitoryManager\UploadHouseAllot.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
