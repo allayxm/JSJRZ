@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MXKJ.Entity;
+using System.Data.OleDb;
+using System.Data;
+using Microsoft.Office.Interop.Excel;
 
 namespace MXKJ.BusinessLogic
 {
@@ -159,6 +162,40 @@ namespace MXKJ.BusinessLogic
         #endregion
 
         #region 房间分配
+
+        /// <summary>
+        /// 读取宿舍分配数据
+        /// </summary>
+        /// <param name="FilePath"></param>
+        /// <returns></returns>
+        public bool ReadHouseAllotData( string FilePath)
+        {
+            Application vExcel = new Application();
+            Workbook vWorkbook = vExcel.Application.Workbooks.Open(FilePath);
+            Worksheet vWorksheet = (Worksheet)vWorkbook.Worksheets.get_Item(1);
+            int vCount1 = vWorksheet.UsedRange.Rows.Count;
+            int vCount2= vWorksheet.UsedRange.Columns.Count;
+            int i = 3;
+            bool vStop = false;
+            while ( !vStop)
+            {
+                Microsoft.Office.Interop.Excel.Range rng = vWorksheet.Cells["A1"]["A1"];//公寓楼
+                string aa = rng.Text;
+                //if (vBuildName != null && vBuildName != "" && vBuildName != string.Empty)
+                //{
+                //vWorksheet.Cells.get_Range();
+                Microsoft.Office.Interop.Excel.Range rng1 = vWorksheet.Cells["B1"]["B1"];//楼层
+                    object[,] arry1 = (object[,])rng1.Value2;
+                    Microsoft.Office.Interop.Excel.Range rng2 = vWorksheet.Cells["C1"]["C1"];//房间编号
+                    Microsoft.Office.Interop.Excel.Range rng3 = vWorksheet.Cells["D1"]["D1"];//学号
+                    Microsoft.Office.Interop.Excel.Range rng4 = vWorksheet.Cells["E1"]["E1"];//姓名
+                //}
+                //else
+                //    vStop = true;
+            }
+            int vCount = vWorksheet.Rows.Count;
+            return true;
+        }
         public bool HouseAllot(int HouseID, int BedNumber, string OldStudentsID, string StudentsID, string StudentsName)
         {
             bool vResult = false;
@@ -264,6 +301,7 @@ namespace MXKJ.BusinessLogic
             return m_BasicDBClass.UpdateRecord(vAdminEF);
         }
         #endregion
+
 
     }
 }

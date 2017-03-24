@@ -661,12 +661,25 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult UploadHouseAllot(HttpPostedFileBase[] fileToUpload)
+        public ActionResult UploadHouseAllot(IEnumerable<HttpPostedFileBase> files)
         {
-            foreach (HttpPostedFileBase file in fileToUpload)
+            //if (file != null)
+            //{
+            //    string vPath = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
+            //    file.SaveAs(vPath);
+            //    Dormitory vDormitory = new Dormitory();
+            //    vDormitory.ReadHouseAllotData(vPath);
+            //}
+
+            if (files != null)
             {
-                string path = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
-                file.SaveAs(path);
+                foreach (HttpPostedFileBase file in files)
+                {
+                    string vPath = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
+                    file.SaveAs(vPath);
+                    Dormitory vDormitory = new Dormitory();
+                    vDormitory.ReadHouseAllotData(vPath);
+                }
             }
             return View();
         }
