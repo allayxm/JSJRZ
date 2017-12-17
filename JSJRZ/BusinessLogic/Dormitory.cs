@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MXKJ.Entity;
+using MXKJ.DBMiddleWareLib;
 using System.Data.OleDb;
 using System.Data;
-using Microsoft.Office.Interop.Excel;
+using Excel;
+using System.IO;
 
 namespace MXKJ.BusinessLogic
 {
@@ -168,33 +170,151 @@ namespace MXKJ.BusinessLogic
         /// </summary>
         /// <param name="FilePath"></param>
         /// <returns></returns>
-        public bool ReadHouseAllotData( string FilePath)
+        public string ReadHouseAllotData( Stream FileStream)
         {
-            Application vExcel = new Application();
-            Workbook vWorkbook = vExcel.Application.Workbooks.Open(FilePath);
-            Worksheet vWorksheet = (Worksheet)vWorkbook.Worksheets.get_Item(1);
-            int vCount1 = vWorksheet.UsedRange.Rows.Count;
-            int vCount2= vWorksheet.UsedRange.Columns.Count;
-            int i = 3;
-            bool vStop = false;
-            while ( !vStop)
+            string vResult = "";
+            //FileStream stream = File.Open(vOpenFileDialog.FileName, FileMode.Open, FileAccess.Read);
+
+            //1. Reading from a binary Excel file ('97-2003 format; *.xls)
+            //IExcelDataReader excelReader = ExcelReaderFactory.CreateBinaryReader(FileStream);
+            //...
+            //2. Reading from a OpenXml Excel file (2007 format; *.xlsx)
+            IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(FileStream);
+            //...
+            //3. DataSet - The result of each spreadsheet will be created in the result.Tables
+            //DataSet result = excelReader.AsDataSet();
+            //...
+            //4. DataSet - Create column names from first row
+            excelReader.IsFirstRowAsColumnNames = true;
+            DataSet result = excelReader.AsDataSet();
+            excelReader.Close();
+
+            if ( result.Tables.Count>0 )
             {
-                Microsoft.Office.Interop.Excel.Range rng = vWorksheet.Cells["A1"]["A1"];//公寓楼
-                string aa = rng.Text;
-                //if (vBuildName != null && vBuildName != "" && vBuildName != string.Empty)
-                //{
-                //vWorksheet.Cells.get_Range();
-                Microsoft.Office.Interop.Excel.Range rng1 = vWorksheet.Cells["B1"]["B1"];//楼层
-                    object[,] arry1 = (object[,])rng1.Value2;
-                    Microsoft.Office.Interop.Excel.Range rng2 = vWorksheet.Cells["C1"]["C1"];//房间编号
-                    Microsoft.Office.Interop.Excel.Range rng3 = vWorksheet.Cells["D1"]["D1"];//学号
-                    Microsoft.Office.Interop.Excel.Range rng4 = vWorksheet.Cells["E1"]["E1"];//姓名
-                //}
-                //else
-                //    vStop = true;
+                DataTable vInputTable = result.Tables[0];
+                //vInputTable.Columns.Add(new DataColumn("StudentID", typeof(int)));
+                //vInputTable.AcceptChanges();
+
+                
+                //学生表
+                DataTable vStudentsTable = m_BasicDBClass.SelectCustom("Select id,name,student_id From edu_students");
+                //宿舍表
+                Dormitory_HouseViewEF[] vHouseInfoArray = m_BasicDBClass.SelectAllRecordsEx<Dormitory_HouseViewEF>();
+                
+                foreach ( DataRow vTempRow in vInputTable.Rows)
+                {
+                    string vStudentID = DBConvert.ToString(vTempRow["学号"]);
+                    DataRow[] vSelectedRows =  vStudentsTable.Select(string.Format("student_id='{0}'", vStudentID));
+                    if (vSelectedRows!=null && vSelectedRows.Length>0)
+                    {
+                        int vID = (int)vSelectedRows[0]["ID"];
+                        string vStudentName = DBConvert.ToString( vSelectedRows[0]["name"] );
+                        int vSID = DBConvert.ToInt32(vSelectedRows[0]["ID"]).Value;
+                        string vDormitoryName = DBConvert.ToString(vTempRow["公寓楼"]);
+                        string vNumber = DBConvert.ToString(vTempRow["房间编号"]);
+
+                        //已入住学生去除住宿信息
+                        Dormitory_HouseViewEF[] vInHouseInfoArray = vHouseInfoArray.Where(m => m.StudentName!=null &&  m.StudentName.Contains(vStudentName)).ToArray();
+                        if (vInHouseInfoArray != null && vInHouseInfoArray.Length>0)
+                        {
+                            foreach(Dormitory_HouseViewEF vTempInHouseInfo in vInHouseInfoArray)
+                            {
+                                int vIndex = getHouseInfoArrayIndex(vHouseInfoArray, vTempInHouseInfo.ID.Value);
+                               
+                                if (vTempInHouseInfo.StudentName.Split(',').Length== 1)
+                                {
+                                    Dormitory_HouseEF vDormitory_HouseEF = new Dormitory_HouseEF()
+                                    {
+                                        ID = vTempInHouseInfo.ID,
+                                        ResidueBed = vTempInHouseInfo.BedNumber,
+                                        StudentID = "",
+                                        StudentName = ""
+                                    };
+                                    m_BasicDBClass.UpdateRecord<Dormitory_HouseEF>(vDormitory_HouseEF);
+                                    vHouseInfoArray[vIndex].ResidueBed = vDormitory_HouseEF.ResidueBed;
+                                    vHouseInfoArray[vIndex].StudentID = "";
+                                    vHouseInfoArray[vIndex].StudentName = "";
+                                }
+                                else
+                                {
+                                    int vStudentNameIndex = vTempInHouseInfo.StudentName.IndexOf(vStudentName);
+                                    int vStudentIDIndex = vTempInHouseInfo.StudentID.IndexOf(vSID.ToString());
+                                    Dormitory_HouseEF vDormitory_HouseEF = new Dormitory_HouseEF()
+                                    {
+                                        ID = vTempInHouseInfo.ID,
+                                        ResidueBed = vTempInHouseInfo.ResidueBed+1,
+                                        StudentID = vStudentIDIndex==-1 || vStudentIDIndex == 0 ? vTempInHouseInfo.StudentID.Remove(0, vSID.ToString().Length+1):vTempInHouseInfo.StudentID.Remove(vStudentIDIndex-1, vSID.ToString().Length+1),
+                                        StudentName = vStudentNameIndex==-1 || vStudentNameIndex == 0 ? vTempInHouseInfo.StudentName.Remove(0, vStudentName.Length+1):vTempInHouseInfo.StudentName.Remove(vStudentNameIndex-1, vStudentName.Length+1)
+                                    };
+                                    m_BasicDBClass.UpdateRecord<Dormitory_HouseEF>(vDormitory_HouseEF);
+                                    vHouseInfoArray[vIndex].ResidueBed = vDormitory_HouseEF.ResidueBed;
+                                    vHouseInfoArray[vIndex].StudentID = vDormitory_HouseEF.StudentID;
+                                    vHouseInfoArray[vIndex].StudentName = vDormitory_HouseEF.StudentName;
+                                }
+                                //vInHouseInfoArray[vIndex].StudentName.Remove()
+                            }
+                        }
+
+                        //重新分配住宿信息
+                        Dormitory_HouseViewEF vSelectHouseInfo = vHouseInfoArray.Where(m => m.DormitoryName == vDormitoryName && m.Number == vNumber).FirstOrDefault();
+                        if (vSelectHouseInfo.ID != null &&  vSelectHouseInfo.IsUse.Value && vSelectHouseInfo.ResidueBed>0)
+                        {
+                            Dormitory_HouseEF vDormitory_HouseEF = new Dormitory_HouseEF()
+                            {
+                                 ID= vSelectHouseInfo.ID,
+                                 ResidueBed= vSelectHouseInfo.ResidueBed-1,
+                                 StudentID = vSelectHouseInfo.StudentID == null || vSelectHouseInfo.StudentID==""? vID.ToString():vSelectHouseInfo.StudentID+","+ vID,
+                                 StudentName = vSelectHouseInfo.StudentName==null || vSelectHouseInfo.StudentName==""? vStudentName:vSelectHouseInfo.StudentName+","+vStudentName
+                            };
+                            m_BasicDBClass.UpdateRecord<Dormitory_HouseEF>(vDormitory_HouseEF);
+                            
+                            int vIndex = getHouseInfoArrayIndex(vHouseInfoArray,vSelectHouseInfo.ID.Value);
+                            vHouseInfoArray[vIndex].ResidueBed = vDormitory_HouseEF.ResidueBed;
+                            vHouseInfoArray[vIndex].StudentID = vDormitory_HouseEF.StudentID;
+                            vHouseInfoArray[vIndex].StudentName = vDormitory_HouseEF.StudentName;
+                        }
+                        else
+                        {
+
+                            if (vSelectHouseInfo.ID == null)
+                            {
+                                vResult += string.Format("{0}楼栋{1}号房间不存在\r\n", vDormitoryName, vNumber);
+                                break;
+                            }
+                            if (!vSelectHouseInfo.IsUse.Value)
+                            {
+                                vResult += string.Format("{0}楼栋{1}号房间未开放\r\n", vDormitoryName, vNumber);
+                                break;
+                            }
+                            if (vSelectHouseInfo.ResidueBed == 0)
+                            {
+                                vResult += string.Format("{0}楼栋{1}号房间床位已满\r\n", vDormitoryName, vNumber);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        vResult += string.Format("学号:{0} 学生不存在\r\n", vStudentID);
+                    }
+                }
+                //vInputTable.AcceptChanges();
             }
-            int vCount = vWorksheet.Rows.Count;
-            return true;
+            return vResult;
+        }
+
+        int getHouseInfoArrayIndex(Dormitory_HouseViewEF[] HouseInfoArray,int ID)
+        {
+            int vIndex = -1;
+            for(int i=0;i< HouseInfoArray.Length;i++)
+            {
+                if (HouseInfoArray[i].ID == ID )
+                {
+                    vIndex = i;
+                    break;
+                }
+            }
+            return vIndex;
         }
         public bool HouseAllot(int HouseID, int BedNumber, string OldStudentsID, string StudentsID, string StudentsName)
         {

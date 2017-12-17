@@ -27,10 +27,21 @@
                             <!-- general form elements -->
                             <div class="box box-primary">
                                 <div class="box-header with-border">
-                                    <label>导入数据<a style="color:red">*</a></label>
+                                    <label>导入数据<a style="color:red">*</a><a href="~/Files/HouseAllot.xlsx">下载导入模板</a></label>
                                     <input name="files" id="file" type="file" />
                                     <button type="submit" name="submit"  class="btn btn-danger" value="Upload" style="float:right">导入</button>
-                                </div><!-- /.box-header -->
+                                    
+                                    <div>
+                                        @{
+                                            if (ViewBag.ErrorMessage != null && ViewBag.ErrorMessage != "")
+                                            {
+                                                <P class="text-danger">@Html.Raw(ViewBag.ErrorMessage.Replace("\r\n", "<br>"))</P>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                            <!-- /.box-header -->
                             </div><!-- /.box -->
                         </div><!--/.col (left) -->
                     </div>   <!-- /.row -->

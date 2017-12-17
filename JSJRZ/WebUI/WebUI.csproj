@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1132,6 +1133,9 @@
     <Content Include="Views\SafeManager\FireFightingView.cshtml" />
     <Content Include="Views\SafeManager\EducationView.cshtml" />
     <Content Include="Views\DormitoryManager\UploadHouseAllot.cshtml" />
+    <Content Include="Files\HouseAllot.xlsx" />
+    <Content Include="Views\Shared\_LayoutStatement.cshtml" />
+    <Content Include="Views\SelfStatement\InputStatement.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

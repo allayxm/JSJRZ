@@ -24,5 +24,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.DormitoryManager
         public List<SelectListItem> DutyList { get; set; } = new List<SelectListItem>();
         public String Tel { get; set; }
         public String Memo { get; set; }
+
+        public string DormitoryInfo { get; set; }
     }
 }

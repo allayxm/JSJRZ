@@ -324,6 +324,46 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             return vList;
         }
 
+        List<SelectListItem> convertToFloorListItem(string DormitoryName, string DormitoryInfo)
+        {
+            List<SelectListItem> vList = new List<SelectListItem>();
+            string[] vDormitoryInfoArray = DormitoryInfo.Split('&');
+            foreach( string vTempDormitoryInfo in vDormitoryInfoArray)
+            {
+                string[] vDormitoryArray = vTempDormitoryInfo.Split('|');
+                if (vDormitoryArray.Length == 2 && vDormitoryArray[0]== DormitoryName)
+                {
+                    int vLength = int.Parse(vDormitoryArray[1]);
+                    for ( int i=1;i<= vLength;i++)
+                    {
+                        SelectListItem vNewItem = new SelectListItem()
+                        {
+                            Text = string.Format("第{0}层",i),
+                            Value =i.ToString()
+                        };
+                        vList.Add(vNewItem);
+                    }
+                }
+            }
+            return vList;
+        }
+
+        List<SelectListItem> convertToDormitoryListItem(Dormitory_ItemsEF[] DormitoryItmes,ref string DormitoryInfo )
+        {
+            List<SelectListItem> vList = new List<SelectListItem>();
+            foreach (Dormitory_ItemsEF vTempvDormitory in DormitoryItmes)
+            {
+                SelectListItem vNewItem = new SelectListItem()
+                {
+                    Text = vTempvDormitory.BuildName,
+                    Value = vTempvDormitory.ID.ToString()
+                };
+                DormitoryInfo += string.Format("{0}|{1}&", vNewItem.Text, vTempvDormitory.Storey);
+                vList.Add(vNewItem);
+            }
+            return vList;
+        }
+
         #endregion
 
         #endregion
@@ -522,7 +562,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                     ID = vTempHouse.ID,
                     Dormitory = vTempHouse.DormitoryName,
                     Duty = vTempHouse.Duty,
-                    Floor = vTempHouse.Floor == null ? "" : string.Format("{0}楼", vTempHouse.Floor),
+                    Floor = vTempHouse.Floor == null ? "" : string.Format("第{0}层", vTempHouse.Floor),
                     Memo = vTempHouse.Memo,
                     Name = vTempHouse.Name,
                     Tel = vTempHouse.Tel,
@@ -582,10 +622,11 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
 
         public ActionResult AddAdmin()
         {
-            
+            string vDormitoryInfo = "";
             AddAdminViewModel vModel = new AddAdminViewModel(); ;
             Dormitory vDormitory = new Dormitory();
-            vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+            vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory(), ref vDormitoryInfo);
+            vModel.DormitoryInfo = vDormitoryInfo;
             Dict vDict = new Dict();
             vModel.DutyList = convertToDictListItem(vDict.DormitoryManagerDuty());
             return View(vModel);
@@ -627,7 +668,10 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 WorkTime = vAdminData.WorkTime,
                 WorkType = vAdminData.WorkType
             };
-            vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory());
+            string vDormitoryInfo = "";
+            vModel.DormitoryList = convertToDormitoryListItem(vDormitory.GetAllDormitory(), ref vDormitoryInfo);
+            vModel.DormitoryInfo = vDormitoryInfo;
+            vModel.FloorList = convertToFloorListItem(vAdminData.DormitoryName, vDormitoryInfo);
             Dict vDict = new Dict();
             vModel.DutyList = convertToDictListItem(vDict.DormitoryManagerDuty());
             return View( vModel);
@@ -652,6 +696,8 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             }
         }
 
+
+      
         #endregion
 
         #region 宿舍分配数据上传
@@ -675,10 +721,11 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             {
                 foreach (HttpPostedFileBase file in files)
                 {
-                    string vPath = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
-                    file.SaveAs(vPath);
+                    //string vPath = System.IO.Path.Combine(Server.MapPath("~/App_Data"), System.IO.Path.GetFileName(file.FileName));
+                    //file.SaveAs(vPath);
+                    //file.InputStream.
                     Dormitory vDormitory = new Dormitory();
-                    vDormitory.ReadHouseAllotData(vPath);
+                    ViewBag.ErrorMessage = vDormitory.ReadHouseAllotData(file.InputStream);
                 }
             }
             return View();
