@@ -1,0 +1,61 @@
+﻿@model MXKJ.JSJRZ.WebUI.Models.SelfStatement.ViewStatementViewModel
+@using MXKJ.JSJRZ.WebUI.Models.SelfStatement
+@using System.Web.Optimization
+@{
+    ViewBag.Title = "自我陈述";
+    Layout = "~/Views/Shared/_LayoutStatement.cshtml";
+}
+@section JS {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+<body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header text-center">
+                <h1>
+                    自我陈述
+                </h1>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                @using (Html.BeginForm("InputStatement", "SelfStatement", FormMethod.Post, new { role = "form" }))
+                {
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box-body">
+                                            @foreach (ViewStatementItemViewModel vTempItem in Model.ItemList)
+                                            {
+                                            <table  class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center text-bold">@vTempItem.Year<label>年</label>@vTempItem.Rang</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                   
+                                                        <tr class="even gradeA" style="height:100px">
+                                                            <td >@vTempItem.Memo</td>
+                                                        </tr>
+                                            </table>
+                                            }
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </div><!-- /.box -->
+                        </div><!--/.col (left) -->
+                    </div>   <!-- /.row -->
+                }
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+</body>
+

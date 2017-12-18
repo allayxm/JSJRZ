@@ -52,8 +52,10 @@
     <Compile Include="Dict.cs" />
     <Compile Include="Dormitory.cs" />
     <Compile Include="Moral.cs" />
+    <Compile Include="PeerResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Safe.cs" />
+    <Compile Include="SelfStatement.cs" />
     <Compile Include="Student.cs" />
   </ItemGroup>
   <ItemGroup>
