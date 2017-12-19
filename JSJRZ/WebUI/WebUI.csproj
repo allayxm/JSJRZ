@@ -1074,7 +1074,8 @@
     <Compile Include="Models\Moral\MoralManageViewModel.cs" />
     <Compile Include="Models\Moral\StatisticsMoralViewModel.cs" />
     <Compile Include="Models\Moral\ViewDetailMoralViewModel.cs" />
-    <Compile Include="Models\PeerResponse\PeerResponseViewModel.cs" />
+    <Compile Include="Models\PeerResponse\StatisticsOrgScoreViewModel.cs" />
+    <Compile Include="Models\PeerResponse\StudentScoringViewModel.cs" />
     <Compile Include="Models\SafeManager\AddEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
     <Compile Include="Models\SafeManager\AddFireFightingViewModel.cs" />
@@ -1148,7 +1149,8 @@
     <Content Include="Views\SelfStatement\InputStatement.cshtml" />
     <Content Include="Views\SelfStatement\ViewStatement.cshtml" />
     <Content Include="Views\Shared\_LayoutPeerResponse.cshtml" />
-    <Content Include="Views\PeerResponse\PeerResponse.cshtml" />
+    <Content Include="Views\PeerResponse\StudentScoring.cshtml" />
+    <Content Include="Views\PeerResponse\StatisticsOrgScore.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
