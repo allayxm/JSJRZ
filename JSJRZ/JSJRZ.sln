@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUI", "WebUI\WebUI.csproj", "{A375634B-876C-464B-B78F-81285BA80E3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMiddleWareLib", "E:\Work\DBMiddleWare\DBMiddleWareLib\DBMiddleWareLib.csproj", "{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBMiddleWareLib", "..\..\..\..\DBMiddleWare\DBMiddleWareLib\DBMiddleWareLib.csproj", "{FAD8E9AF-E87D-45E3-99B8-CD3E3360B682}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entity", "Entity\Entity.csproj", "{28EB4554-14D6-4DF9-877A-54EF72F714CD}"
 EndProject
@@ -44,6 +44,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {98B69AE4-AC95-465E-9D06-BBD3BE85F65D}
+		SolutionGuid = {4D49A635-2E4E-4FA7-A96B-C7AF607E2645}
 	EndGlobalSection
 EndGlobal

@@ -1023,6 +1023,10 @@
     <Content Include="plugins\datepicker\build\build.less" />
     <Content Include="plugins\datepicker\build\build_standalone.less" />
     <Content Include="plugins\datepicker\less\datetimepicker.less" />
+    <None Include="Dockerfile" />
+    <None Include=".dockerignore">
+      <DependentUpon>Dockerfile</DependentUpon>
+    </None>
     <None Include="Properties\PublishProfiles\1.pubxml" />
     <None Include="Properties\PublishProfiles\发布.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -1033,6 +1037,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="SQL\td_oa.sql" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -1043,7 +1048,9 @@
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\DormitoryManagerController.cs" />
     <Compile Include="Controllers\MoralController.cs" />
+    <Compile Include="Controllers\PeerResponseController.cs" />
     <Compile Include="Controllers\SafeManagerController.cs" />
+    <Compile Include="Controllers\SelfStatementController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -1067,6 +1074,7 @@
     <Compile Include="Models\Moral\MoralManageViewModel.cs" />
     <Compile Include="Models\Moral\StatisticsMoralViewModel.cs" />
     <Compile Include="Models\Moral\ViewDetailMoralViewModel.cs" />
+    <Compile Include="Models\PeerResponse\PeerResponseViewModel.cs" />
     <Compile Include="Models\SafeManager\AddEducationViewModel.cs" />
     <Compile Include="Models\SafeManager\AddHiddenDangerViewModel.cs" />
     <Compile Include="Models\SafeManager\AddFireFightingViewModel.cs" />
@@ -1079,6 +1087,8 @@
     <Compile Include="Models\SafeManager\HiddenDangerInfoViewModel.cs" />
     <Compile Include="Models\SafeManager\FireFightingInfoViewModel.cs" />
     <Compile Include="Models\SafeManager\SafetyCheckInfoViewModel.cs" />
+    <Compile Include="Models\SelfStatement\InputStatementViewModel.cs" />
+    <Compile Include="Models\SelfStatement\ViewStatementViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1136,6 +1146,9 @@
     <Content Include="Files\HouseAllot.xlsx" />
     <Content Include="Views\Shared\_LayoutStatement.cshtml" />
     <Content Include="Views\SelfStatement\InputStatement.cshtml" />
+    <Content Include="Views\SelfStatement\ViewStatement.cshtml" />
+    <Content Include="Views\Shared\_LayoutPeerResponse.cshtml" />
+    <Content Include="Views\PeerResponse\PeerResponse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
