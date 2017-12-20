@@ -1,14 +1,23 @@
-﻿@using System.Web.Optimization
+﻿@model MXKJ.JSJRZ.WebUI.Models.PeerResponse.StudentScoringViewModel
+@using System.Web.Optimization
 @{
     ViewBag.Title = "学生互评";
     Layout = "~/Views/Shared/_LayoutPeerResponse.cshtml";
 }
 @section CSS{
-
+    @Styles.Render("~/bundles/select2/css")
 }
 
 @section JS {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/select2/js")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $(".select2").select2();
+            });
+        })
+    </script>
 }
 
 <body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
@@ -24,7 +33,7 @@
 
             <!-- Main content -->
             <section class="content">
-                @using (Html.BeginForm("AddEducation", "SafeManager", FormMethod.Post, new { role = "form" }))
+                @using (Html.BeginForm("StudentScoring", "PeerResponse", FormMethod.Post, new { role = "form" }))
                 {
                     <div class="row">
                         <!-- left column -->
@@ -35,38 +44,34 @@
                                     <h3 class="box-title"><button type="submit" class="btn btn-danger">保存</button>&nbsp&nbsp<button type="button" onclick="history.go(-1)" class="btn btn-default">返回</button></h3>
                                     <h4 class="text-left">
                                         <p>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.Theme, "", new { @class = "text-danger" })</p>
-                                        <p>@Html.ValidationMessageFor(m => m.Time, "", new { @class = "text-danger" })</p>
+                                        @*<p>@Html.ValidationMessageFor(m => m.Theme, "", new { @class = "text-danger" })</p>
+                                            <p>@Html.ValidationMessageFor(m => m.Time, "", new { @class = "text-danger" })</p>*@
                                     </h4>
                                 </div><!-- /.box-header -->
                                 <!-- form start -->
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="box-body">
-                                            <div class="form-group">
-                                                <label>主题<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.Theme, new { @class = "form-control", placeholder = "请输入主题" })
+                                            <div class="form-group col-xs-4">
+                                                <label>互评同学(1)</label>
+                                                @Html.DropDownListFor(m =>m.EvaluateStudentID1, Model.StudentList, "请选择评价同学", new { @class = "form-control  select2", style = "width: 100%;" })
+                                                <p></p>
+                                                @Html.TextBoxFor(m => m.Score1, new { @class = "form-control", placeholder = "请输入评价分数" })
                                             </div>
-                                            <div class="form-group">
-                                                <label>时间<a style="color:red">*</a></label>
-                                                @Html.TextBoxFor(m => m.Time, "{0:yyyy-MM-dd}", new { @class = "form-control", placeholder = "请输入时间" })
+                                            <div class="form-group col-xs-4">
+                                                <label>互评同学(2)</label>
+                                                @Html.DropDownListFor(m => m.EvaluateStudentID2, Model.StudentList, "请选择评价同学", new { @class = "form-control  select2", style = "width: 100%;" })
+                                                <p></p>
+                                                @Html.TextBoxFor(m => m.Score2, new { @class = "form-control", placeholder = "请输入评价分数" })
                                             </div>
-                                            <div class="form-group">
-                                                <label>组织者</label>
-                                                @Html.TextBoxFor(m => m.Organizer, new { @class = "form-control", placeholder = "请输入组织者" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>参与学生</label>
-                                                @Html.TextBoxFor(m => m.Student, new { @class = "form-control", placeholder = "请输入参与学生" })
-                                            </div>
-                                            <div class="form-group">
-                                                <label>描述</label>
-                                                @Html.TextBoxFor(m => m.Describe, new { @class = "form-control", placeholder = "请输入描述" })
+                                            <div class="form-group col-xs-4">
+                                                <label>互评同学(3)</label>
+                                                @Html.DropDownListFor(m => m.EvaluateStudentID3, Model.StudentList, "请选择评价同学", new { @class = "form-control  select2", style = "width: 100%;" })
+                                                <p></p>
+                                                @Html.TextBoxFor(m => m.Score3, new { @class = "form-control", placeholder = "请输入评价分数" })
                                             </div>
                                         </div><!-- /.box-body -->
-
                                     </div>
-
                                 </div>
                             </div><!-- /.box -->
                         </div><!--/.col (left) -->
@@ -75,18 +80,5 @@
             </section><!-- /.content -->
         </div><!-- /.content-wrapper -->
     </div><!-- ./wrapper -->
-    <script>
-        $('#Time').datetimepicker({
-            format: 'yyyy-mm-dd',
-            language: 'zh-CN',
-            weekStart: 1,
-            todayBtn: 1,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0
-        });
-    </script>
 </body>
 

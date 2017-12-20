@@ -44,6 +44,12 @@ namespace MXKJ.BusinessLogic
         }
 
 
+        public Edu_StudentsEF[] GetNotEvaluateStudent(int OrgID)
+        {
+            string vSql = "Select * From edu_students where id not in ("
+                        +string.Format(" Select EvaluateStudentID From edu_peerresponse GROUP BY  EvaluateStudentID having count(*) >= 3 ) and org_id = {0}",OrgID);
+            return m_BasicDBClass.SelectCustomEx<Edu_StudentsEF>(vSql);
+        }
 
     }
 }

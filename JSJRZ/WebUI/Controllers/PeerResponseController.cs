@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using MXKJ.BusinessLogic;
 using MXKJ.Entity;
 using MXKJ.JSJRZ.WebUI.Models.PeerResponse;
@@ -15,7 +11,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         public ActionResult StudentScoring(int ID )
         {
             PeerResponse vPeerResponse = new PeerResponse();
-            Edu_PeerResponseViewEF[] vAllScore =  vPeerResponse.GetAllScoreByStudent(ID);
+            Edu_PeerResponseViewEF[] vAllScore = vPeerResponse.GetAllScoreByStudent(ID);
             StudentScoringViewModel vViewModel = new StudentScoringViewModel(); 
             for ( int i=0;i<vAllScore.Length;i++)
             {
@@ -42,6 +38,12 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
                 else
                     break;
             }
+
+            Edu_StudentsEF[] vStudentsArray = vPeerResponse.GetNotEvaluateStudent(42);
+            foreach(Edu_StudentsEF vTempStudent in vStudentsArray)
+            {
+                vViewModel.StudentList.Add(new SelectListItem() { Text=vTempStudent.name, Value=vTempStudent.id.ToString() });
+            }
             return View(vViewModel);
         }
 
@@ -50,9 +52,12 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
         {
             bool vResult = false;
             PeerResponse vPeerResponse = new PeerResponse();
-            vResult =  vPeerResponse.EvaluateStudent(ViewModel.StudentID, ViewModel.EvaluateStudentID1, ViewModel.Score1);
-            vResult =  vPeerResponse.EvaluateStudent(ViewModel.StudentID, ViewModel.EvaluateStudentID1, ViewModel.Score2);
-            vResult =  vPeerResponse.EvaluateStudent(ViewModel.StudentID, ViewModel.EvaluateStudentID1, ViewModel.Score3);
+            if (ViewModel.EvaluateStudentID1!=null && ViewModel.Score1!=null)
+                vResult =  vPeerResponse.EvaluateStudent(ViewModel.StudentID, ViewModel.EvaluateStudentID1.Value, ViewModel.Score1.Value);
+            if (ViewModel.EvaluateStudentID2 != null && ViewModel.Score2 != null)
+                vResult =  vPeerResponse.EvaluateStudent(ViewModel.StudentID, ViewModel.EvaluateStudentID1.Value, ViewModel.Score2.Value);
+            if (ViewModel.EvaluateStudentID3 != null && ViewModel.Score3 != null)
+                vResult =  vPeerResponse.EvaluateStudent(ViewModel.StudentID, ViewModel.EvaluateStudentID1.Value, ViewModel.Score3.Value);
             if (!vResult)
                 ModelState.AddModelError("", "学生互评失败");
             return View(ViewModel);
