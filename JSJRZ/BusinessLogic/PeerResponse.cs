@@ -51,5 +51,12 @@ namespace MXKJ.BusinessLogic
             return m_BasicDBClass.SelectCustomEx<Edu_StudentsEF>(vSql);
         }
 
+        public Edu_StudentsEF[] GetAllStudnets(int OrgID )
+        {
+            Edu_StudentsEF vSelectEF = new Edu_StudentsEF();
+            vSelectEF.org_id = OrgID;
+            return m_BasicDBClass.SelectRecordsEx(vSelectEF);
+        }
+
     }
 }

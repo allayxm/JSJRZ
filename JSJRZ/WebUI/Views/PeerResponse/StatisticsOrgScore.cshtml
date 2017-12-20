@@ -1,8 +1,66 @@
-﻿
+﻿@model MXKJ.JSJRZ.WebUI.Models.PeerResponse.StatisticsOrgScoreViewModel
+@using MXKJ.JSJRZ.WebUI.Models.PeerResponse
 @{
-    ViewBag.Title = "StatisticsOrgScore";
+    ViewBag.Title = "学生互评统计";
     Layout = "~/Views/Shared/_LayoutPeerResponse.cshtml";
 }
-
-<h2>StatisticsOrgScore</h2>
-
+<body class="hold-transition sidebar-mini" s style="background-color:#ecf0f5;">
+    <div class="wrapper">
+        <!-- Content Wrapper. Contains page content -->
+        <div>
+            <!-- Content Header (Page header) -->
+            <section class="content-header text-center">
+                <h1>
+                    学生互评统计
+                </h1>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                @using (Html.BeginForm("StatisticsOrgScore", "PeerResponse", FormMethod.Post, new { role = "form" }))
+                {
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="box box-primary">
+                                <!-- form start -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="box-body">
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>学生姓名</th>
+                                                        <th>评价学生(1)</th>
+                                                        <th>评价分数(1)</th>
+                                                        <th>评价学生(2)</th>
+                                                        <th>评价分数(2)</th>
+                                                        <th>评价学生(3)</th>
+                                                        <th>评价分数(3)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (StatisticsOrgScoreItemViewModel vTempItem in Model.Itmes)
+                                                    {
+                                                        <tr class="even gradeA">
+                                                            <td>@vTempItem.StudentName</td>
+                                                            <td>@vTempItem.EvaluateStudentName1</td>
+                                                            <td>@vTempItem.EvaluateScore1</td>
+                                                            <td>@vTempItem.EvaluateStudentName2</td>
+                                                            <td>@vTempItem.EvaluateScore2</td>
+                                                            <td>@vTempItem.EvaluateStudentName3</td>
+                                                            <td>@vTempItem.EvaluateScore3</td>
+                                                        </tr>
+                                                    }
+                                            </table>
+                                        </div><!-- /.box-body -->
+                                    </div>
+                                </div>
+                            </div><!-- /.box -->
+                        </div><!--/.col (left) -->
+                    </div>   <!-- /.row -->
+                }
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    </div><!-- ./wrapper -->
+</body>

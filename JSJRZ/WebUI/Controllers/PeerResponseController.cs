@@ -1,4 +1,5 @@
 ﻿using System.Web.Mvc;
+using System.Linq;
 using MXKJ.BusinessLogic;
 using MXKJ.Entity;
 using MXKJ.JSJRZ.WebUI.Models.PeerResponse;
@@ -63,6 +64,38 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             return View(ViewModel);
         }
 
-        
+        public ActionResult StatisticsOrgScore(int ID)
+        {
+            StatisticsOrgScoreViewModel vVideModel = new StatisticsOrgScoreViewModel();
+            PeerResponse vPeerResponse = new PeerResponse();
+            Edu_StudentsEF[] vStudnetArray = vPeerResponse.GetAllStudnets(ID);
+            Edu_PeerResponseViewEF[] vAllScore = vPeerResponse.GetAllScoreByOrg(ID);
+            foreach( Edu_StudentsEF vTempStuent in vStudnetArray)
+            {
+                StatisticsOrgScoreItemViewModel vNewItem = new StatisticsOrgScoreItemViewModel();
+                vNewItem.StudentName = vTempStuent.name;
+                Edu_PeerResponseViewEF[] vSelectPeerResponseEF =  vAllScore.Where(m => m.EvaluateStudentID == vTempStuent.id).ToArray();
+                for( int i=0;i< vSelectPeerResponseEF.Length;i++)
+                {
+                    switch( i)
+                    {
+                        case 0:
+                            vNewItem.EvaluateStudentName1 = vSelectPeerResponseEF[i].EvaluateStudentName;
+                            vNewItem.EvaluateScore1 = vSelectPeerResponseEF[i].Socre??0;
+                            break;
+                        case 1:
+                            vNewItem.EvaluateStudentName2 = vSelectPeerResponseEF[i].EvaluateStudentName;
+                            vNewItem.EvaluateScore2 = vSelectPeerResponseEF[i].Socre ?? 0;
+                            break;
+                        case 2:
+                            vNewItem.EvaluateStudentName3 = vSelectPeerResponseEF[i].EvaluateStudentName;
+                            vNewItem.EvaluateScore3 = vSelectPeerResponseEF[i].Socre ?? 0;
+                            break;
+                    }
+                }
+                vVideModel.Itmes.Add(vNewItem);
+            }
+            return View(vVideModel);
+        }
     }
 }
