@@ -9,6 +9,7 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
     public class PeerResponseController : Controller
     {
         // GET: PeerResponse
+        #region 学生评分
         public ActionResult StudentScoring(int ID,int OrgID )
         {
             PeerResponse vPeerResponse = new PeerResponse();
@@ -74,7 +75,9 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             }
             return View(ViewModel);
         }
+        #endregion
 
+        #region 评分统计
         public ActionResult StatisticsOrgScore(int ID)
         {
             StatisticsOrgScoreViewModel vVideModel = new StatisticsOrgScoreViewModel();
@@ -108,5 +111,23 @@ namespace MXKJ.JSJRZ.WebUI.Controllers
             }
             return View(vVideModel);
         }
+        #endregion
+
+        #region 评分列表
+        public ActionResult StatisticsOrgList(int ID)
+        {
+            StatisticsOrgListViewModel vModel = new StatisticsOrgListViewModel();
+            PeerResponse vPeerResponse = new PeerResponse();
+            Edu_OrgEF[] vClassInfoArray = vPeerResponse.GetClassInfoByTeacher(ID);
+            vModel.ClassIDArray = new int[vClassInfoArray.Length];
+            vModel.ClassNameArray = new string[vClassInfoArray.Length];
+            for(int i=0;i<vModel.ClassIDArray.Length;i++)
+            {
+                vModel.ClassIDArray[i] = vClassInfoArray[i].id.Value;
+                vModel.ClassNameArray[i] = vClassInfoArray[i].long_name;
+            }
+            return View(vModel);
+        }
+        #endregion
     }
 }

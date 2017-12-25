@@ -53,7 +53,7 @@ namespace MXKJ.BusinessLogic
             return m_BasicDBClass.SelectRecordsEx(vSelectEF);
         }
 
-        public int[] GetClassTeacherInfo(int TeacherID)
+        int[] getClassTeacherInfo(int TeacherID)
         {
             int[] vResult = null;
             Edu_TeacherEF vSelectEF = new Edu_TeacherEF();
@@ -76,7 +76,7 @@ namespace MXKJ.BusinessLogic
         public Edu_OrgEF[] GetClassInfoByTeacher( int TeacherID )
         {
             Edu_OrgEF[] vResult = null;
-            int[] vClassArray = GetClassTeacherInfo(TeacherID);
+            int[] vClassArray = getClassTeacherInfo(TeacherID);
             if (vClassArray != null)
             {
                 Edu_OrgEF[] vAllOrgArray = m_BasicDBClass.SelectAllRecordsEx<Edu_OrgEF>();

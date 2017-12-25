@@ -7,7 +7,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.PeerResponse
 {
     public class StatisticsOrgListViewModel
     {
-        public string[] ClassNameArray { get; set; }
-        public int[] ClassIDArray { get; set; }
+        public string[] ClassNameArray { get; set; } = new string[0];
+        public int[] ClassIDArray { get; set; } = new int[0];
     }
 }
