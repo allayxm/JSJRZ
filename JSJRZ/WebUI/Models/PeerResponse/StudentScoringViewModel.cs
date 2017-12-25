@@ -11,6 +11,7 @@ namespace MXKJ.JSJRZ.WebUI.Models.PeerResponse
     {
         public int StudentID { get; set; }
         public string StudentName { get; set; }
+        public int OrgID { get; set; }
 
         public int? EvaluateStudentID1 { get; set; }
         public string EvaluateStudentName1 { get; set; }

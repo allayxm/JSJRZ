@@ -18,6 +18,11 @@ namespace WebUI
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional,date= UrlParameter.Optional }
             );
+            routes.MapRoute(
+                name: "PeerResponse",
+                url: "{controller}/{action}/{id}/{orgid}",
+                defaults: new { controller = "PeerResponse", action = "Index", id = UrlParameter.Optional,orgid= UrlParameter.Optional, date = UrlParameter.Optional }
+            );
         }
     }
 }

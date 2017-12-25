@@ -13,6 +13,8 @@ namespace MXKJ.BusinessLogic
         {
             Edu_PeerResponseViewEF vSelectEF = new Edu_PeerResponseViewEF();
             vSelectEF.StudentID = StudentID;
+            vSelectEF.Year = DateTime.Now.Year;
+            vSelectEF.Range = DateTime.Now.Month <= 9 ? 1 : 0;
             return m_BasicDBClass.SelectRecordsEx(vSelectEF);
         }
 
@@ -31,9 +33,17 @@ namespace MXKJ.BusinessLogic
             }
             else
             {
+                vSelectEF.Year = DateTime.Now.Year;
+                vSelectEF.Range = DateTime.Now.Month <= 9 ? 1 : 0;
                 vResult = m_BasicDBClass.InsertRecord(vSelectEF) > 0 ? true : false;
             }
             return vResult;
+        }
+
+        public bool DeleteEvaluateByStudent(int StudentID )
+        {
+            string vSql = string.Format("StudentID={0}",StudentID);
+            return m_BasicDBClass.DeleteRecordCustom< Edu_PeerResponseEF>(vSql);
         }
 
         public Edu_PeerResponseViewEF[] GetAllScoreByOrg(int OrgID )
@@ -43,6 +53,43 @@ namespace MXKJ.BusinessLogic
             return m_BasicDBClass.SelectRecordsEx(vSelectEF);
         }
 
+        public int[] GetClassTeacherInfo(int TeacherID)
+        {
+            int[] vResult = null;
+            Edu_TeacherEF vSelectEF = new Edu_TeacherEF();
+            vSelectEF.teacher_type = true;
+            vSelectEF.course_id = 0;
+            vSelectEF.school_year = string.Format("{0}-{1}",DateTime.Now.Year,DateTime.Now.Year+1);
+            Edu_TeacherEF[] vSelectResult = m_BasicDBClass.SelectRecordsEx(vSelectEF);
+            if (vSelectResult!=null && vSelectResult.Length>0)
+            {
+                vResult = new int[vSelectResult.Length];
+                for(int i=0;i< vSelectResult.Length;i++)
+                {
+                    vResult[i] = vSelectResult[i].class_id.Value;
+                }
+            }
+            return vResult;
+        }
+
+
+        public Edu_OrgEF[] GetClassInfoByTeacher( int TeacherID )
+        {
+            Edu_OrgEF[] vResult = null;
+            int[] vClassArray = GetClassTeacherInfo(TeacherID);
+            if (vClassArray != null)
+            {
+                Edu_OrgEF[] vAllOrgArray = m_BasicDBClass.SelectAllRecordsEx<Edu_OrgEF>();
+                vResult = new Edu_OrgEF[vClassArray.Length];
+                for(int i= 0;i < vClassArray.Length;i++)
+                {
+                    //vAllOrgArray.Where(m => m.id == vClassArray[i]).fi
+                    Edu_OrgEF vSelectOrg = vAllOrgArray.Where(m => m.id == vClassArray[i]).FirstOrDefault();
+                    vResult[i] = vSelectOrg;
+                }
+            }
+            return vResult;
+        }
 
         public Edu_StudentsEF[] GetNotEvaluateStudent(int OrgID)
         {
